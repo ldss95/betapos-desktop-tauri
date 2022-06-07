@@ -153,7 +153,7 @@ const CustomHeader = ({ main, title }: CustomHeaderProps) => {
 					<Form onFinish={handleBarcodeInput} form={form}>
 						<Form.Item name="barcode" style={{ marginBottom: 0 }}>
 							<Input
-								placeholder="Codigo de barras:"
+								placeholder="Código de barras:"
 								id="barcode_input"
 								autoFocus
 							/>

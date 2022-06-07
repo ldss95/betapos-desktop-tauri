@@ -134,7 +134,7 @@ const ModalSearch = ({ visible, close, input }: ModalSearchProps) => {
 						dataIndex: 'name'
 					},
 					{
-						title: 'Barras',
+						title: 'Código de Barras',
 						dataIndex: 'barcodes',
 						render: (barcodes) => barcodes[0].barcode
 					},

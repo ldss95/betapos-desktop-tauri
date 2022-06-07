@@ -108,7 +108,7 @@ const Products = () => {
 							sorter: (a, b) => a.name.localeCompare(b.name)
 						},
 						{
-							title: 'Barras',
+							title: 'Código de Barras',
 							dataIndex: 'barcodes',
 							render: (barcodes) => {
 								if (!barcodes[0])

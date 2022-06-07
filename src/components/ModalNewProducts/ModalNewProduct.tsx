@@ -92,7 +92,7 @@ const ModalNewProduct = ({ visible, barcode, hide }: ModalNewProductProps) => {
 					</Col>
 					<Col span={12}>
 						<Form.Item
-							label="Codigo de Barras"
+							label="Código de Barras"
 							name="barcode"
 							rules={[{required: true}]}
 						>
