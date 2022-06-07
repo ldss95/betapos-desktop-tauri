@@ -52,10 +52,11 @@ const Product = ({ id, name, barcode, price, quantity, index }: ProductProps) =>
 				<InputNumber
 					type="number"
 					value={quantity}
-					onPressEnter={(event) => {
+					onPressEnter={(event: any) => {
 						let quantity = Number(event.target.value) || 1;
 						dispatch(setQuantity(id, quantity));
-						document.querySelector('#barcode_input').focus()
+						const barcodeInput: any = document.querySelector('#barcode_input');
+						barcodeInput?.focus()
 					}}
 					className="quantity-input"
 				/>

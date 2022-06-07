@@ -61,12 +61,12 @@ const Navbar = () => {
 
 	const name = () => {
 		let out: string = '';
-		const { name } = session;
+		const { firstName, lastName } = session;
 
-		if (!name)
-			return 'N/A'
+		if (!firstName && !lastName) 
+			return 'N/A';
 		
-		name.split(' ').forEach((name: string, index: number) => {
+		`${firstName} ${lastName}`.split(' ').forEach((name: string, index: number) => {
 			if (index === 0) {
 				out = name;
 			} else if (name.replace(/ /g, ' ')) {
@@ -94,14 +94,22 @@ const Navbar = () => {
 				placement="left"
 				onClose={handleClose}
 				visible={navbar.isVisible}
-				width={showSubMenu ? 701 : 350}
+				width={showSubMenu ? 661 : 310}
 			>
 				<Row justify="center">
-					<Avatar size={130} icon={<UserOutlined />} src="" />
+					<div
+						style={{
+							width: 100,
+							height: 100,
+							borderRadius: 50,
+							backgroundImage: `url(${session.photoUrl})`,
+							backgroundSize: 'cover'
+						}}
+					/>
 				</Row>
 				<br />
 				<Row justify="center">
-					<Title>{name()}</Title>
+					<Title level={3}>{name()}</Title>
 				</Row>
 				<br />
 

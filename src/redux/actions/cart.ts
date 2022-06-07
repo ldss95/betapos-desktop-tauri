@@ -21,17 +21,17 @@ const removeProductFromCart = (index: number) => ({
 	payload: { index }
 });
 
-const increase = (id?: number) => ({
+const increase = (id?: string) => ({
 	type: INCREASE_QUANTITY,
 	payload: { id }
 });
 
-const decrease = (id?: number) => ({
+const decrease = (id?: string) => ({
 	type: DECREASE_QUANTITY,
 	payload: { id }
 });
 
-const setQuantity = (id: number, quantity: number) => ({
+const setQuantity = (id: string, quantity: number) => ({
 	type: SET_QUANTITY,
 	payload: { id, quantity }
 });

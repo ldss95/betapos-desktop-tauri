@@ -24,7 +24,10 @@ interface CustomHeaderProps {
 }
 const CustomHeader = ({ main, title }: CustomHeaderProps) => {
 	const dispatch = useDispatch();
-	const { meta, userName } = useSelector((state: any) => ({ meta: state.meta, userName: state.session.name}))
+	const { meta, userName } = useSelector((state: any) => ({
+		meta: state.meta,
+		userName: state.session.firstName + ' ' + state.session.lastName
+	}))
 	const navigate = useNavigate();
 	const [form] = Form.useForm();
 
