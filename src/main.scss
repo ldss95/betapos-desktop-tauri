@@ -1,0 +1,160 @@
+@import './assets/styles/colors';
+
+@font-face {
+	font-family: 'SF UI Display Black';
+	src: url('./assets/fonts/sf-ui-display-black.otf');
+}
+
+@font-face {
+	font-family: 'SF UI Display Bold';
+	src: url('./assets/fonts/sf-ui-display-bold.otf');
+}
+
+@font-face {
+	font-family: 'SF UI Display Heavy';
+	src: url('./assets/fonts/sf-ui-display-heavy.otf');
+}
+
+@font-face {
+	font-family: 'SF UI Display Light';
+	src: url('./assets/fonts/sf-ui-display-light.otf');
+}
+
+@font-face {
+	font-family: 'SF UI Display Medium';
+	src: url('./assets/fonts/sf-ui-display-medium.otf');
+}
+
+@font-face {
+	font-family: 'SF UI Display Semibold';
+	src: url('./assets/fonts/sf-ui-display-semibold.otf');
+}
+
+@font-face {
+	font-family: 'SF UI Display Thin';
+	src: url('./assets/fonts/sf-ui-display-thin.otf');
+}
+
+@font-face {
+	font-family: 'SF UI Display Ultralight';
+	src: url('./assets/fonts/sf-ui-display-ultralight.otf');
+}
+
+body {
+	margin: 0;
+	font-family: SF UI Display;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	background: #fff;
+}
+
+main {
+	padding: 138px 30px 30px 30px;
+}
+
+code {
+	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+		monospace;
+}
+
+.summary {
+	.summary-tile {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		border: solid 1px rgba(0, 0, 0, 0.1);
+		border-radius: 5px;
+		box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.1);
+		padding: 15px;
+		min-width: 150px;
+		margin:15px;
+
+		h3 {
+			font-size: 32px !important;
+		}
+
+		h1 {
+			font-size: 96px !important;
+			margin: 0 !important;
+			color: #fff;
+		}
+
+		&.danger{
+			box-shadow: 6px 6px 12px $color-red-01;
+			background: $color-red;
+
+			span {
+				font-size: 24px;
+				color: #fff;
+			}
+		}
+
+		&.info{
+			box-shadow: 6px 6px 12px $color-blue-01;
+			background: $color-blue;
+
+			span {
+				font-size: 24px;
+				color: #fff;
+			}
+		}
+	}
+}
+
+button.ant-btn {
+	border-radius: 30px !important;
+	font-size: 16px !important;
+	font-family: SF UI Display Bold;
+	color: $color-black !important;
+	width: auto !important;
+	height: auto !important;
+	padding: 2px 20px;
+
+	&.ant-btn-primary {
+		background: $color-yellow;
+		border: solid 1px $color-yellow;
+	}
+
+	&.sm {
+		padding: 3px 15px;
+	}
+}
+.ant-form-item {
+	.ant-input:not(.default),
+	.ant-input-number:not(.default),
+	.ant-picker:not(.default) {
+		width: 100%;
+		font-size: 18px !important;
+		font-family: SF UI Display Medium;
+		color: #959595;
+	}
+}
+.ant-form-item-label {
+	label {
+		font-family: SF UI Display Medium;
+		color: #505358;
+		font-size: 18px;
+	}
+}
+
+.ant-form-item-explain {
+	font-family: SF UI Display Light;
+}
+
+#cash_input{
+	color: $color-red;
+	font-size: 60px;
+	height: auto;
+}
+
+.lock-icon{
+	width: 80px;
+	height: 80px;
+	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: $color-red;
+	color:#fff;
+	font-size: 40px;
+}

@@ -1,6 +1,8 @@
 import ReactDOM from 'react-dom/client'
 import * as Sentry from '@sentry/react';
 import { BrowserTracing } from "@sentry/tracing";
+import 'sweetalert2/dist/sweetalert2.min.css';
+import './main.scss';
 
 import App from './App'
 import UnexpectedError from './components/Error/Unexpected';
