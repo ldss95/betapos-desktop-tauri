@@ -9,7 +9,7 @@ import {
 	Typography
 } from 'antd';
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
 
 import './Login.scss';
@@ -19,7 +19,6 @@ import { logOut, setShift } from '../../redux/actions/session';
 const { Title } = Typography
 
 const ShiftStart = () => {
-	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const session = useSelector((state: any) => state.session)
 
@@ -47,8 +46,13 @@ const ShiftStart = () => {
 			});
 	};
 
-	if (session.isLoggedIn && (session.role === 'ADMIN' || session.shift)) 
-		return navigate('/main');
+	if (!session.isLoggedIn) {
+		return <Navigate to='/login' />;
+	}
+
+	if (session.isLoggedIn && (session.role === 'ADMIN' || session.shift)) {
+		return <Navigate to='/main' />;
+	}
 
 	return (
 		<Layout id="login_container">
@@ -57,7 +61,7 @@ const ShiftStart = () => {
 			</Title>
 
 			<Form layout="vertical" onFinish={start}>
-				<Title level={4}>{session.name}</Title>
+				<Title level={4}>{session.firstName} {session.lastName}</Title>
 				<br />
 
 				<Form.Item
@@ -65,7 +69,7 @@ const ShiftStart = () => {
 					name="cash"
 					rules={[{ required: true, message: 'Efectivo' }]}
 				>
-					<InputNumber autoFocus min={0} />
+					<InputNumber autoFocus min={0} style={{ width: '100%' }} />
 				</Form.Item>
 				<br />
 

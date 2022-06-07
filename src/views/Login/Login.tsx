@@ -5,25 +5,24 @@ import {
 	Form,
 	Input,
 	Button,
-	Typography,
-	Spin
+	Spin,
+	Typography
 } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons'
 import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 import './Login.scss';
 import http from '../../http';
 import { setSession, setShift } from '../../redux/actions/session';
 import { setMeta } from '../../redux/actions/meta';
 
-const { Title } = Typography;
+const { Title } = Typography
 
 const Login = () => {
-	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const { session, shop } = useSelector((state: any) => ({
+	const { session } = useSelector((state: any) => ({
 		session: state.session,
 		shop: state.shop
 	}));
@@ -83,17 +82,14 @@ const Login = () => {
 		}
 	};
 
-	if (!shop.id)
-		return navigate('/shops');
-
 	if (session.isLoggedIn && (session.role === 'ADMIN' || session.shift)) 
-		return navigate('/main');
+		return <Navigate to='/main' />;
 
 	if (!session.isLoggedIn && session.tfa)
-		return navigate('/2FA');
+		return <Navigate to='/2FA' />;
 
 	if (session.isLoggedIn && !loading)
-		return navigate('/shift-start')
+		return <Navigate to='/shift-start' />
 	
 	if (session.isLoggedIn && loading)
 		return (
@@ -105,7 +101,7 @@ const Login = () => {
 	return (
 		<Layout id="login_container">
 			<Title level={1} className="title">
-				Tienda
+				Iniciar Sesion
 			</Title>
 
 			<Form layout="vertical" onFinish={login}>

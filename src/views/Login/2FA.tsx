@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { Row, Button, Layout, Form, Input, Typography, Space } from 'antd'
 import { LockOutlined } from '@ant-design/icons'
@@ -12,7 +12,6 @@ import { validate2FA, logOut } from '../../redux/actions/session'
 const { Title } = Typography
 
 const TFA = () => {
-	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const isLoggedIn = useSelector((state: any) => state.session.isLoggedIn);
 
@@ -46,7 +45,7 @@ const TFA = () => {
 	};
 
 	if (isLoggedIn)
-		return navigate('/main')
+		return <Navigate to='/main' />
 
 	return (
 		<Layout id="login_container">
