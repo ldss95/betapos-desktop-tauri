@@ -11,21 +11,18 @@ import Header from '../../components/Header/Header';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import Product from '../../components/Product/Product';
 import ModalSummay from '../../components/ModalSummary/ModalSummary';
-import ModalNewProduct from '../../components/ModalNewProducts/ModalNewProduct'
 
 const { Content } = Layout;
 
 const Main = () => {
-	const { cart, shop, shiftId, role } = useSelector((state: any) => ({
+	const { cart, shiftId, role } = useSelector((state: any) => ({
 		cart: state.cart,
-		shop: state.shop,
 		shiftId: state.session?.shift?.id,
 		role: state.session.role
 	}));
 	const dispatch = useDispatch()
 
 	const [summary, setSummary] = useState<any>({});
-	const [createProduct, setCreateProduct] = useState({ visible: false, barcode: '' })
 
 	useEffect(() => {
 		document.addEventListener('keydown', (event) => {
@@ -76,8 +73,7 @@ const Main = () => {
 
 			http.post('/tickets', {
 				ticket: { amount: total, status: 'DONE', shiftId, discount },
-				products,
-				shop
+				products
 			})
 				.then(() => {
 					dispatch(clear());
@@ -107,11 +103,11 @@ const Main = () => {
 	return (
 		<Layout style={{ height: '100vh' }}>
 			{/* Navigation Menu */}
-			<NavBar createProduct={setCreateProduct} />
+			<NavBar />
 
 			<Layout>
 				{/* Top Bar */}
-				<Header main createProduct={setCreateProduct} />
+				<Header main />
 
 				<Content className="main">
 					{cart.products.map((product: any, index: number) => (
@@ -181,12 +177,6 @@ const Main = () => {
 						class: 'danger'
 					}
 				]}
-			/>
-
-			{/* Modal to create new product */}
-			<ModalNewProduct
-				{ ...createProduct }
-				hide={() => setCreateProduct({ visible: false, barcode: '' })}
 			/>
 		</Layout>
 	);

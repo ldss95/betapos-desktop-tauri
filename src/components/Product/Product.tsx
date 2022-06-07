@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { memo } from 'react';
 import { Typography, InputNumber, Avatar } from 'antd';
 import {
 	CaretDownOutlined,
@@ -9,22 +9,26 @@ import {
 import { useDispatch } from 'react-redux';
 
 import './Product.scss';
-import ModalChangePrice from '../ModalChangePrice/ModalChangePrice'
 import {
 	removeProductFromCart,
 	increase,
 	decrease,
-	setQuantity,
-	setPrice
+	setQuantity
 } from '../../redux/actions/cart';
 import { format } from '../../helper';
 
 const { Title, Text } = Typography;
 
-const Product = ({ id, name, barcode, price, quantity, index }) => {
+interface ProductProps {
+	id: string;
+	name: string;
+	barcode: string;
+	price: number;
+	quantity: number;
+	index: number;
+}
+const Product = ({ id, name, barcode, price, quantity, index }: ProductProps) => {
 	const dispatch = useDispatch();
-
-	const [showChangePrice, setShowChangePrice] = useState(false)
 
 	return (
 		<div className="product">
@@ -36,16 +40,10 @@ const Product = ({ id, name, barcode, price, quantity, index }) => {
 				<Text>#{id}</Text>
 			</div>
 			<div className="price">
-				<Text
-					className="price-u"
-					onDoubleClick={() => setShowChangePrice(true)}
-				>
+				<Text className="price-u">
 					$ {format.cash(price)} /U
 				</Text>
-				<Text
-					className="price-t"
-					onDoubleClick={() => setShowChangePrice(true)}
-				>
+				<Text className="price-t">
 					$ {format.cash(price * quantity)}
 				</Text>
 			</div>
@@ -69,17 +67,8 @@ const Product = ({ id, name, barcode, price, quantity, index }) => {
 			>
 				<CloseOutlined />
 			</div>
-
-			<ModalChangePrice 
-				visible={showChangePrice}
-				close={() => setShowChangePrice(false)}
-				name={name}
-				price={price}
-				setPrice={setPrice}
-				id={id}
-			/>
 		</div>
 	);
 };
 
-export default React.memo(Product);
+export default memo(Product);

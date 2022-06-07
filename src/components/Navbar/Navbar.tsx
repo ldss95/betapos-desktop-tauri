@@ -1,4 +1,4 @@
-import { useState, Fragment, useRef, memo } from 'react';
+import { useState, useRef, memo } from 'react';
 import { Drawer, Typography, Avatar, Row, message } from 'antd';
 import {
 	UserOutlined,
@@ -10,9 +10,7 @@ import {
 	DownloadOutlined,
 	UploadOutlined,
 	FileTextOutlined,
-	EditOutlined,
-	DropboxOutlined,
-	PlusOutlined
+	DropboxOutlined
 } from '@ant-design/icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
@@ -25,7 +23,7 @@ import ModalIO from '../ModalIO/ModalIO';
 import http from '../../http';
 
 const { Title } = Typography;
-const Navbar = ({ createProduct }: any) => {
+const Navbar = () => {
 	const subMenuBtn = useRef<any>();
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
@@ -80,7 +78,7 @@ const Navbar = ({ createProduct }: any) => {
 	};
 
 	return (
-		<Fragment>
+		<>
 			<ModalDiscount
 				visible={showModalDiscount}
 				close={() => setShowModalDiscount(false)}
@@ -106,7 +104,6 @@ const Navbar = ({ createProduct }: any) => {
 					<Title>{name()}</Title>
 				</Row>
 				<br />
-				<br />
 
 				<div id="menus">
 					<ul className="left">
@@ -115,18 +112,6 @@ const Navbar = ({ createProduct }: any) => {
 								<UserOutlined />
 								Mi Perfil
 							</NavLink>
-						</li>
-						<li>
-							<span
-								className="btn"
-								onClick={() => {
-									createProduct({ visible: true, barcode: '' })
-									handleClose()
-								}}
-							>
-								<PlusOutlined />
-								Nuevo Producto
-							</span>
 						</li>
 						<li>
 							<span
@@ -187,7 +172,7 @@ const Navbar = ({ createProduct }: any) => {
 					</ul>
 
 					{showSubMenu && (
-						<Fragment>
+						<>
 							<span id="vertical_divider"></span>
 							<ul>
 								<li>
@@ -240,11 +225,11 @@ const Navbar = ({ createProduct }: any) => {
 									</span>
 								</li>
 							</ul>
-						</Fragment>
+						</>
 					)}
 				</div>
 			</Drawer>
-		</Fragment>
+		</>
 	);
 };
 

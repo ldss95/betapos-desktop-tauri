@@ -11,9 +11,7 @@ import http from '../../http';
 import { toggleMenu } from '../../redux/actions/navbar';
 import { addProductToCart } from '../../redux/actions/cart';
 import ModalSearch from '../ModalSearch/ModalSearch';
-import Notification from '../Notifications/Notifications'
 import ModalSelectProducts from '../ModalProductSelector/ModalSelectProducts';
-import UpdateBtn from '../Update/Update'
 
 const { Header } = Layout;
 const { Title } = Typography;
@@ -177,8 +175,6 @@ const CustomHeader = ({ main, title }: CustomHeaderProps) => {
 			<div>
 				<Space>
 					<Title level={4} id="username">{userName}</Title>
-					<Notification />
-					<UpdateBtn/>
 				</Space>
 			</div>
 

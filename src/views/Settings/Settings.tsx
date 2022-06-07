@@ -10,7 +10,6 @@ import {
 } from 'antd';
 import Swal from 'sweetalert2';
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 
 import './Settings.scss';
 import Header from '../../components/Header/Header';
@@ -21,11 +20,7 @@ const { Content } = Layout;
 const { Title } = Typography;
 
 const Settings = () => {
-	const { shop, meta } = useSelector((state: any) => ({
-		shop: state.shop,
-		session: state.session,
-		meta: state.meta
-	}));
+	const meta = useSelector((state: any) => state.meta);
 	const dispatch = useDispatch()
 
 	const [loading, setLoading] = useState(false);
@@ -68,10 +63,7 @@ const Settings = () => {
 						onFinish={handleSubmit}
 					>
 						<div id="shop_card">
-							<Title level={1}>20&10</Title>
-							<Title level={2}>
-								{shop.name} (D-{shop.prefix})
-							</Title>
+							<Title level={1}>--/-- Business Name Here --/--</Title>
 						</div>
 
 						<Form.Item label="IP Impresora" name="printerIp">

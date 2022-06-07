@@ -135,16 +135,6 @@ const Products = () => {
 							dataIndex: 'price',
 							render: (price) => format.cash(price, 2),
 							sorter: (a, b) => a.price - b.price
-						},
-						{
-							title: 'Cambiar Precio',
-							dataIndex: 'id',
-							render: (id, { price, name }) =>
-								<Button
-									onClick={() => setChangePrice({ id, name, price })}
-								>
-									Cambiar
-								</Button>
 						}
 					]}
 				/>
@@ -161,15 +151,6 @@ const Products = () => {
 					renderItem={({ barcode }) => <List.Item>{barcode}</List.Item>}
 				/>
 			</Modal>
-
-			<ModalChangePrice 
-				visible={changePrice.id}
-				close={() => setChangePrice({})}
-				name={changePrice.name}
-				price={changePrice.price}
-				id={changePrice.id}
-				fetchProducts={fetchProducts}
-			/>
 		</Layout>
 	)
 }

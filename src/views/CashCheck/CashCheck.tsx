@@ -1,4 +1,4 @@
-import { useState, useEffect, Fragment } from 'react';
+import { useState, useEffect,  } from 'react';
 import {
 	Layout,
 	Row,
@@ -27,10 +27,9 @@ const { Text, Title } = Typography;
 
 const CashingOut = () => {
 	const location = useLocation();
-	const { shift, shopName, sellerName, role } = useSelector((state: any) => ({
+	const { shift, sellerName, role } = useSelector((state: any) => ({
 		shift: state.session.shift,
 		role: state.session.role,
-		shopName: state.shop.name,
 		sellerName: state.session.name
 	}));
 	const navigate = useNavigate();
@@ -78,7 +77,6 @@ const CashingOut = () => {
 			shift,
 			endAmount: totalBills() + totalCoins(),
 			cashDetail,
-			shopName,
 			sellerName
 		})
 			.then(() => {
@@ -272,7 +270,7 @@ const CashingOut = () => {
 				)}
 
 				{(isAuthorized || path === '/shift-end') && (
-					<Fragment>
+					<>
 						<Row gutter={120}>
 							<Col span={12}>
 								<Row justify="center">
@@ -397,7 +395,7 @@ const CashingOut = () => {
 						</Row>
 						<br />
 						<br />
-					</Fragment>
+					</>
 				)}
 			</Content>
 		

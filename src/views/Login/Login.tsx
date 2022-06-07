@@ -22,10 +22,7 @@ const { Title } = Typography
 
 const Login = () => {
 	const dispatch = useDispatch();
-	const { session } = useSelector((state: any) => ({
-		session: state.session,
-		shop: state.shop
-	}));
+	const session = useSelector((state: any) => state.session);
 
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<any>(null);

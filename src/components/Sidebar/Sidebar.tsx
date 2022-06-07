@@ -23,8 +23,7 @@ const { Title } = Typography;
 const Sidebar = () => {
 	const dispatch = useDispatch();
 
-	const { shop, cart, userName, shift } = useSelector((state: any) => ({
-		shop: state.shop,
+	const { cart, userName, shift } = useSelector((state: any) => ({
 		cart: state.cart,
 		userName: state.session.name,
 		shift: state.session.shift
@@ -49,9 +48,7 @@ const Sidebar = () => {
 		<>
 			<Sider width={350} className="right-sider">
 				<Title>
-					20&10
-					<br />
-					{shop.name}
+					--/-- Business Name Here --/--
 				</Title>
 				<br />
 				<br />

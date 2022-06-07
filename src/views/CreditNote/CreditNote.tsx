@@ -26,7 +26,6 @@ const { TextArea } = Input;
 const { Title, Text } = Typography;
 
 const CreditNote = () => {
-	const prefix = useSelector((state: any) => state.shop.prefix);
 	const navigate = useNavigate();
 
 	const [returnProduct, setReturnProduct] = useState(false);
@@ -122,10 +121,7 @@ const CreditNote = () => {
 								name="ticket"
 								rules={[{ required: true }]}
 							>
-								<Input
-									addonBefore={`D-${prefix}-`}
-									onChange={getTicket}
-								/>
+								<Input onChange={getTicket} />
 							</Form.Item>
 
 							<Form.Item
