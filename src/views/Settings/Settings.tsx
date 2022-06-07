@@ -21,8 +21,7 @@ const { Content } = Layout;
 const { Title } = Typography;
 
 const Settings = () => {
-	const navigate = useNavigate();
-	const { shop, session, meta } = useSelector((state: any) => ({
+	const { shop, meta } = useSelector((state: any) => ({
 		shop: state.shop,
 		session: state.session,
 		meta: state.meta
@@ -30,7 +29,6 @@ const Settings = () => {
 	const dispatch = useDispatch()
 
 	const [loading, setLoading] = useState(false);
-	const [syncing, setSyncing] = useState(false);
 
 	const handleSubmit = (form: any) => {
 		setLoading(true);
@@ -55,53 +53,6 @@ const Settings = () => {
 			});
 	};
 
-	const changeShop = async () => {
-		try {
-			setSyncing(true);
-			if (session.role !== 'ADMIN') {
-				Swal.fire(
-					'Acceso Negado!',
-					'Usted no cuenta con permiso para esta accion.',
-					'warning'
-				);
-				setSyncing(false);
-				return;
-			}
-
-			if (!navigator.onLine) {
-				Swal.fire(
-					'Sin conexion',
-					'Se requiere conexion a internet para descargar la informacion necesaria.',
-					'error'
-				);
-				setSyncing(false);
-				return;
-			}
-
-			const { data } = await http.get('/sync');
-
-			if (data.length > 0) {
-				const res = await http.post('/sync', { wait: true });
-				if (!res.data.allIsDone) {
-					Swal.fire(
-						'Oops!',
-						'Aun hay informacion pendiente por enviar a la nube, por favor intentar mas tarde.',
-						'warning'
-					);
-					setSyncing(false);
-					return;
-				}
-			}
-
-			setSyncing(false);
-			navigate('/shops?change=true');
-		} catch (error) {
-			setSyncing(false);
-			Swal.fire('Error', 'Error desconocido', 'error');
-			console.error(error);
-		}
-	};
-
 	return (
 		<Layout style={{ height: '100vh' }}>
 			<Header title="Configuraciones" />
@@ -121,16 +72,6 @@ const Settings = () => {
 							<Title level={2}>
 								{shop.name} (D-{shop.prefix})
 							</Title>
-
-							<Button
-								type="text"
-								onClick={changeShop}
-								loading={syncing}
-							>
-								{syncing
-									? 'Sincronizando con la nube...'
-									: 'Cambiar de tienda'}
-							</Button>
 						</div>
 
 						<Form.Item label="IP Impresora" name="printerIp">

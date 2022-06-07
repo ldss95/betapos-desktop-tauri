@@ -97,12 +97,6 @@ const Products = () => {
 					scroll={{ y: 'calc(100vh - 340px)' }}
 					columns={[
 						{
-							title: '#ID',
-							dataIndex: 'id',
-							sorter: (a, b) => a.id - b.id,
-							defaultSortOrder: 'descend'
-						},
-						{
 							title: 'Nombre',
 							dataIndex: 'name',
 							sorter: (a, b) => a.name.localeCompare(b.name)

@@ -126,10 +126,6 @@ const ModalSearch = ({ visible, close, input }: ModalSearchProps) => {
 			<Table
 				columns={[
 					{
-						title: '#ID',
-						dataIndex: 'id'
-					},
-					{
 						title: 'Nombre',
 						dataIndex: 'name'
 					},
