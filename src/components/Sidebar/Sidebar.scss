@@ -1,0 +1,56 @@
+@import '../../assets/styles/colors';
+
+.right-sider {
+	background: $color-red !important;
+	border-radius: 10px 0 0 10px;
+	padding: 30px;
+	text-align: center;
+	z-index: 100;
+
+	h1 {
+		color: #fff !important;
+		font-family: SF UI Display Black;
+	}
+
+	button {
+		width: 100% !important;
+		text-align: left !important;
+		margin-bottom: 30px;
+		font-size: 18px;
+		padding: 10px 30px;
+
+		.anticon {
+			font-size: 24px;
+		}
+
+		&.big {
+			border-radius: 10px !important;
+			text-align: center !important;
+			font-size: 44px !important;
+			font-family: SF UI Display Black;
+		}
+	}
+
+	.data {
+		background: #fff;
+		padding: 30px;
+		width: 100%;
+		border-radius: 10px;
+		margin-bottom: 30px;
+
+		h3,
+		h4 {
+			margin: 0 !important;
+			font-family: SF UI Display Black;
+			color: $color-black;
+		}
+
+		h3 {
+			font-size: 44px;
+		}
+
+		h4 {
+			font-size: 28px;
+		}
+	}
+}

@@ -1,0 +1,35 @@
+.error {
+	height: 100vh;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: #db5c5c;
+
+	.error-content {
+		width: 700px;
+		padding: 15px;
+		background-color: #fff;
+		border-radius: 10px;
+		box-shadow: 10px 10px 20px rgba(0, 0, 0, .2);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+
+		.icon {
+			background-color: #db5c5c;
+			color: #fff;
+			width: 120px;
+			height: 120px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			border-radius: 60px;
+		}
+
+		h1, h2, p {
+			text-align: center;
+			margin: 0;
+		}
+	}
+}

@@ -1,0 +1,31 @@
+<svg
+	id="Backgorund"
+	xmlns="http://www.w3.org/2000/svg"
+	viewBox="0 0 1112 834.031"
+>
+	<defs>
+		<style>
+			.cls-1 {
+				fill: #fbde44;
+			}
+
+			.cls-2 {
+				fill: #f65058;
+			}
+		</style>
+	</defs>
+	<path
+		id="Trazado_2"
+		data-name="Trazado 2"
+		class="cls-1"
+		d="M2294,0,1182,834V0Z"
+		transform="translate(-1182)"
+	/>
+	<path
+		id="Trazado_3"
+		data-name="Trazado 3"
+		class="cls-2"
+		d="M2295.244-.031,1183.244,834V0Z"
+		transform="translate(2295.244 834) rotate(-180)"
+	/>
+</svg>

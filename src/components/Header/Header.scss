@@ -1,0 +1,111 @@
+@import '../../assets/styles/colors';
+
+header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 15px 30px !important;
+	height: auto !important;
+	position: fixed;
+	z-index: 90;
+	background: #fff !important;
+	box-shadow: 3px 0 9px rgba(0, 0, 0, 0.1);
+	width: 100%;
+
+	&.main{
+		width: calc(100% - 350px);
+	}
+
+	.left{
+		display: flex;
+
+		.toggle-nav {
+			width: 35px;
+			height: 39px;
+			cursor: pointer;
+			margin-right: 30px;
+
+			span {
+				display: block;
+				height: 3px;
+				background: $color-black;
+				border-radius: 5px;
+				transition: ease all 0.3s;
+
+				&:nth-child(1) {
+					width: 20px;
+					margin-bottom: 15px;
+				}
+
+				&:nth-child(2) {
+					width: 35px;
+					margin-bottom: 15px;
+				}
+
+				&:nth-child(3) {
+					width: 20px;
+					float: right;
+				}
+			}
+
+			&:hover {
+				span {
+					width: 100%;
+				}
+			}
+		}
+
+		input {
+			max-width: 350px;
+			border-radius: 10px !important;
+			border: solid 1px rgba(0, 0, 0, 0.3);
+			font-size: 24px !important;
+			outline: none !important;
+			box-shadow: none;
+
+			&:focus {
+				border: solid 1px $color-red;
+				box-shadow: 6px 6px 14px $color-red-02 !important;
+			}
+		}
+
+		button {
+			margin-left: 30px;
+		}
+
+		.anticon-left {
+			font-size: 35px;
+			cursor: pointer;
+			margin-right: 30px;
+			color: $color-black !important;
+		}
+
+		h2 {
+			font-family: SF UI Display Heavy;
+			color: $color-black !important;
+			margin: 0 !important;
+		}
+	}
+
+	#username{
+		margin: 0 !important;
+	}
+
+	.header-btn{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+		border:solid rgba(0, 0, 0, .1) 1px;
+		cursor: pointer;
+		transition: ease all .3s;
+
+		&:hover{
+			border:none;
+			background:$color-red;
+			color: #fff;
+		}
+	}
+}

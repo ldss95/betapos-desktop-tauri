@@ -1,0 +1,65 @@
+@import '../../assets/styles/colors';
+
+#shops_selector_container {
+	display: flex;
+	justify-content: space-between;
+	flex-direction: column;
+	height: 100vh;
+	padding: 15px;
+	background: $color-light-grey-2;
+
+	h1 {
+		font-family: SF UI Display Black;
+		color: $color-black;
+	}
+
+	ul {
+		list-style: none;
+		padding: 0;
+		li {
+			position: relative;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			width: 200px;
+			height: 200px;
+			border-radius: 10px;
+			background: #fff;
+			box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.16);
+			margin-right: 15px;
+			float: left;
+			cursor: pointer;
+			transition: ease all 0.3s;
+
+			span {
+				width: 100px;
+				height: 100px;
+				margin-top: -45px;
+				svg {
+					width: 100%;
+					height: 100%;
+				}
+			}
+
+			p {
+				position: absolute;
+				bottom: 0;
+				color: $color-black;
+				font-size: 20px;
+				font-family: SF UI Display Medium;
+			}
+
+			&:hover {
+				border: solid 2px #fbde44;
+			}
+
+			&.active {
+				background: $color-yellow;
+			}
+		}
+	}
+
+	#buttons {
+		align-self: center;
+	}
+}

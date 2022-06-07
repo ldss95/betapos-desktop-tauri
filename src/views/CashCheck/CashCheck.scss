@@ -1,0 +1,47 @@
+@import '../../assets/styles/colors';
+
+.coin-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 10px;
+	border: solid 1px rgba(0, 0, 0, 0.1);
+	border-radius: 5px;
+	margin-top: 15px;
+	box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.07);
+
+	.ant-input-number-handler-wrap {
+		display: none;
+	}
+
+	input {
+		background: rgba(0, 0, 0, 0.05);
+		outline: none;
+	}
+
+	span {
+		font-size: 22px;
+		font-family: SF UI Display Medium;
+	}
+}
+
+.cashing-out-total {
+	text-align: center;
+	width: 160px;
+	background: $color-red;
+	border-radius: 5px;
+	padding: 5px 15px;
+	color: #fff;
+
+	span {
+		margin: 0 !important;
+		font-size: 20px !important;
+		color: inherit !important;
+	}
+
+	h2 {
+		margin: 0 !important;
+		font-size: 34px !important;
+		color: inherit !important;
+	}
+}

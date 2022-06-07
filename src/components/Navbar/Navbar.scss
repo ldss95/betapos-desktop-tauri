@@ -1,0 +1,68 @@
+@import '../../assets/styles/colors';
+
+._navbar {
+	.ant-drawer-content-wrapper {
+		border-radius: 0 10px 10px 0;
+		overflow: hidden;
+	}
+
+	#menus {
+		display: flex;
+		justify-content: space-between;
+
+		ul {
+			list-style: none;
+			padding: 0;
+			width: 290px;
+			display: inline-block;
+
+			li {
+				a, span.btn {
+					height: 60px;
+					margin-bottom: 15px;
+					display: flex;
+					align-items: center;
+					border-radius: 30px;
+					padding: 0 30px;
+					font-size: 18px;
+					cursor: pointer;
+					transition: ease all 0.3s;
+					color: #787878;
+					background: rgba(0, 0, 0, 0.05);
+
+					span {
+						svg {
+							font-size: 28px;
+						}
+
+						margin-right: 15px;
+					}
+
+					&:hover,
+					&.active {
+						background: $color-yellow;
+						box-shadow: 4px 4px 10px $color-yellow-05;
+					}
+				}
+
+				&.disabled{
+					a, span.btn{
+						background: rgba(0, 0, 0, 0.2);
+						cursor: default;
+
+						&:hover{
+							box-shadow: none;
+						}
+					}
+				}
+			}
+		}
+
+		#vertical_divider {
+			display: block;
+			width: 1px;
+			height: 430px;
+			background: rgba(0, 0, 0, 0.5);
+		}
+	}
+}

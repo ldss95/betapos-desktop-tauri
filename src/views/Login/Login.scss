@@ -1,0 +1,28 @@
+@import '../../assets/styles/colors';
+
+#login_container {
+	height: 100vh;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-image: url('../../assets/LoginBackground.svg');
+	background-size: cover;
+
+	.title {
+		position: absolute;
+		top: 120px;
+		font-family: SF UI Display Black;
+		color: $color-black;
+	}
+
+	form {
+		background: #fff;
+		border-radius: 10px;
+		padding: 40px 30px 30px 30px;
+
+		button {
+			align-self: center;
+		}
+	}
+}

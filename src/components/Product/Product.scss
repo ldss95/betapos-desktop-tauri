@@ -1,0 +1,110 @@
+@import '../../assets/styles/colors';
+
+.product {
+	display: flex;
+	position: relative;
+	justify-content: space-between;
+	background: $color-light-grey-2;
+	border: solid 1px rgba(0, 0, 0, 0.1);
+	box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.1);
+	padding: 30px;
+	width: 100%;
+	border-radius: 10px;
+	margin-bottom: 30px;
+
+	.description {
+		margin-right: 30px;
+		max-width: 400px;
+		overflow: hidden;
+
+		h1,
+		span {
+			margin: 0;
+			display: block;
+			color: $color-dark-grey-1;
+		}
+
+		h1 {
+			font-size: 30px;
+			font-family: SF UI Display Black;
+		}
+
+		span {
+			font-size: 18px;
+			font-family: SF UI Display Thin;
+		}
+	}
+
+	.price {
+		span {
+			display: block;
+			color: $color-dark-grey-1;
+
+			&.price-u {
+				font-size: 24px;
+				font-family: SF UI Display Medium;
+			}
+
+			&.price-t {
+				font-size: 28px;
+				font-family: SF UI Display Black;
+			}
+		}
+	}
+
+	.quantity {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		color: $color-dark-grey-1;
+
+		.anticon {
+			cursor: pointer;
+			font-size: 26px;
+		}
+
+		.quantity-input {
+			border: none;
+			box-shadow: none;
+			max-width: 100px;
+			width: auto;
+			color: inherit;
+			margin: 5px 0;
+			background: none;
+
+			input {
+				font-size: 36px;
+				text-align: center;
+				font-family: SF UI Display Black;
+
+				&:focus {
+					color:$color-red !important;
+				}
+			}
+
+			.ant-input-number-handler-wrap {
+				display: none;
+			}
+
+			
+		}
+	}
+
+	.delete {
+		position: absolute;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		right: 0;
+		top: 0;
+		margin-right: -15px;
+		margin-top: -15px;
+		background: $color-red;
+		border-radius: 50px;
+		height: 30px;
+		width: 30px;
+		color: #fff;
+		cursor: pointer;
+	}
+}

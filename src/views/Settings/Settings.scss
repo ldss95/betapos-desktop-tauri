@@ -1,0 +1,34 @@
+#shop_card {
+	padding: 15px;
+	width: 100%;
+	background: rgb(255, 37, 48);
+	background: linear-gradient(
+		-70deg,
+		rgba(255, 37, 48, 1) 0%,
+		rgba(246, 80, 88, 1) 100%
+	);
+	margin-bottom: 30px;
+	border-radius: 5px;
+	color: #fff;
+	transition: ease all 0.3s;
+	text-align: center;
+
+	&:hover {
+		box-shadow: 6px 6px 18px rgba(255, 37, 48, 0.3);
+	}
+
+	h1,
+	h2,
+	h3 {
+		color: inherit;
+		font-family: SF UI Display Medium;
+		margin: 0;
+	}
+
+	button {
+		margin-top: 15px;
+		border: solid 1px #fff;
+		font-family: SF UI Display Medium;
+		color: #fff !important;
+	}
+}
