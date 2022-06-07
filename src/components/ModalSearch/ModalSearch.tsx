@@ -132,7 +132,14 @@ const ModalSearch = ({ visible, close, input }: ModalSearchProps) => {
 					{
 						title: 'Código de Barras',
 						dataIndex: 'barcodes',
-						render: (barcodes) => barcodes[0].barcode
+						render: (barcodes) => {
+							if(barcodes.length == 0){
+								return ''
+							}
+
+							const [firstBarcode] = barcodes;
+							return firstBarcode
+						}
 					},
 					{
 						title: 'Precio',
