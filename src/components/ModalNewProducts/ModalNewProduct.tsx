@@ -14,7 +14,7 @@ import axios from 'axios'
 import Swal from 'sweetalert2'
 
 const { Text } = Typography
-const API_URL = import.meta.env.REACT_APP_API_URL
+const API_URL = import.meta.env.VITE_API_URL
 
 interface ModalNewProductProps {
 	visible: boolean

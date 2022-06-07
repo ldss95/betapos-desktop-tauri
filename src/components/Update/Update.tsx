@@ -17,7 +17,6 @@ const Update = () => {
 				else
 					setLastUpdate('Desconocida.')
 				
-				console.log(data)
 				setLoading(false)
 			}).catch(error => {
 				setLoading(false)

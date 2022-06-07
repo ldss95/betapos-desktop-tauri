@@ -4,12 +4,12 @@ import { BrowserTracing } from "@sentry/tracing";
 
 import App from './App'
 import UnexpectedError from './components/Error/Unexpected';
-const SENTRY_DNS = import.meta.env.SENTRY_DSN
+const SENTRY_DNS = import.meta.env.VITE_SENTRY_DSN
 
 Sentry.init({
 	dsn: SENTRY_DNS,
 	integrations: [new BrowserTracing()],
-	environment: import.meta.env.NODE_ENV,
+	environment: import.meta.env.MODE,
 	tracesSampleRate: 1.0,
 });
 

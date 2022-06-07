@@ -6,8 +6,6 @@
 use std::process::Command;
 
 fn main() {
-	test_printer();
-
 	Command::new("npm")
 		.current_dir("../src-node/")
 		.arg("run")

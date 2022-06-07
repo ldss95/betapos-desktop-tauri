@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import http from '../../http'
 
-const API_URL = import.meta.env.REACT_APP_API_URL
+const API_URL = import.meta.env.VITE_API_URL
 
 interface ModalChangePriceProps {
 	visible: boolean;

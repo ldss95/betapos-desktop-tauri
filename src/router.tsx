@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { Routes, Route, HashRouter, useLocation } from 'react-router-dom';
 
 import Login from './views/Login/Login';
-import Shops from './views/Shops/Shops';
 import Main from './views/Main/Main';
 import PausedTickets from './views/PausedTickets/PausedTickets';
 import Profile from './views/Profile/Profile';
@@ -31,7 +30,6 @@ const Router = () => {
 			<Route path={'/'} element={<Login />} />
 			<Route path="/2FA" element={<TFA />} />
 			<Route path="/shift-start" element={<ShiftStart />} />
-			<Route path="/shops" element={<Shops />} />
 			<Route path="/main" element={<Main />} />
 			<Route path="/paused" element={<PausedTickets />} />
 			<Route path="/profile" element={<Profile />} />
