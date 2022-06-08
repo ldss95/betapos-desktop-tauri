@@ -37,7 +37,6 @@ const Product = ({ id, name, barcode, price, quantity, index }: ProductProps) =>
 			<div className="description">
 				<Title>{name.substr(0, 15)}</Title>
 				<Text>{barcode}</Text>
-				<Text>#{id}</Text>
 			</div>
 			<div className="price">
 				<Text className="price-u">
