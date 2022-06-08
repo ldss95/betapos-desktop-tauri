@@ -148,11 +148,12 @@ const cart = (state = initialState, action: any) => {
 		case FINISH_TICKET:
 			const { finish } = action.payload;
 			
-			if (!finish || (finish && state.products.length > 0)) {
-				state.finish = action.payload.finish
+			return {
+				...state,
+				...(!finish || (finish && state.products.length > 0)) && {
+					finish
+				}
 			}
-
-			return state
 		case CLEAR:
 			return {
 				...initialState,

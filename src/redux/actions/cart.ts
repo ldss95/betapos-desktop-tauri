@@ -61,7 +61,7 @@ const restartTicket = (id: number) => ({
 	payload: { id }
 });
 
-const finishTicket = (finish: any) => ({
+const finishTicket = (finish: boolean) => ({
 	type: FINISH_TICKET,
 	payload: { finish }
 })
