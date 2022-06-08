@@ -7,6 +7,12 @@
 	text-align: center;
 	z-index: 100;
 
+	.ant-layout-sider-children {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	}
+
 	h1 {
 		color: #fff !important;
 		font-family: SF UI Display Black;

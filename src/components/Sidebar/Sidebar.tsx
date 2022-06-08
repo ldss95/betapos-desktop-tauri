@@ -50,60 +50,63 @@ const Sidebar = () => {
 			<Sider width={350} className="right-sider">
 				<Title>{businessName}</Title>
 
-				<Button
-					type="primary"
-					icon={<PauseCircleOutlined />}
-					onClick={() => {
-						if (!cart.products.length) {
-							Swal.fire(
-								'Oops!',
-								'No se puede pausar una factura vacia',
-								'warning'
-							);
-							return;
-						}
+				<div>
+					<Button
+						type="primary"
+						icon={<PauseCircleOutlined />}
+						onClick={() => {
+							if (!cart.products.length) {
+								Swal.fire(
+									'Oops!',
+									'No se puede pausar una factura vacia',
+									'warning'
+								);
+								return;
+							}
 
-						setShowPauseModal(true);
-					}}
-					disabled={(!shift)}
-				>
-					Pausar Factura
-				</Button>
-
-				<NavLink
-					to="paused"
-					onClick={event => {
-						if(!shift){
-							event.preventDefault();
-						}
-					}}
-				>
-					<Button type="primary" icon={<PlayCircleOutlined />}>
-						Continuar Factura
+							setShowPauseModal(true);
+						}}
+						disabled={(!shift)}
+					>
+						Pausar Factura
 					</Button>
-				</NavLink>
 
-				<div className="data">
-					<Title level={4}>Total</Title>
+					<NavLink
+						to="paused"
+						onClick={event => {
+							if(!shift){
+								event.preventDefault();
+							}
+						}}
+					>
+						<Button type="primary" icon={<PlayCircleOutlined />}>
+							Continuar Factura
+						</Button>
+					</NavLink>
 
-					<Title level={3}>
-						$ {format.cash(amount() - cart.discount)}
-					</Title>
+					<div className="data">
+						<Title level={4}>Descuento</Title>
+						<Title level={3}>$ {format.cash(cart.discount)}</Title>
+					</div>
+
+					<div className="data">
+						<Title level={4}>Total</Title>
+
+						<Title level={3}>
+							$ {format.cash(amount() - cart.discount)}
+						</Title>
+					</div>
+
+					<Button
+						type="primary"
+						className="big"
+						onClick={() => dispatch(finishTicket(true))}
+						disabled={(!shift)}
+						style={{ marginBottom: 0 }}
+					>
+						Facturar
+					</Button>
 				</div>
-
-				<div className="data">
-					<Title level={4}>Descuento</Title>
-					<Title level={3}>$ {format.cash(cart.discount)}</Title>
-				</div>
-
-				<Button
-					type="primary"
-					className="big"
-					onClick={() => dispatch(finishTicket(true))}
-					disabled={(!shift)}
-				>
-					Facturar
-				</Button>
 			</Sider>
 
 			<Modal
