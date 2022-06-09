@@ -12,11 +12,14 @@ import { LoadingOutlined } from '@ant-design/icons'
 import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
+import { getToken } from 'firebase/messaging';
 
 import './Login.scss';
 import http from '../../http';
 import { setSession, setShift } from '../../redux/actions/session';
 import { setMeta } from '../../redux/actions/meta';
+import { messaging } from '../../utils/firebase';
+import axios from 'axios';
 
 const { Title } = Typography
 
@@ -30,28 +33,38 @@ const Login = () => {
 	useEffect(() => {
 		getCurrentShift();
 
+		if (Notification.permission != 'granted') {
+			Notification.requestPermission();
+		}
+
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	const login = (form: any) => {
-		setLoading(true);
-		http.post('/auth/login', form)
-			.then(res => {
-				const { data } = res
-				dispatch(setSession(data));
-				window.location.reload();
-			}).catch (error => {
-				setLoading(false);
-				if (error.response.status === 401)
-					setError(error.response.data);
-				else {
-					Swal.fire(
-						'Error',
-						'No hemos podido completar tu solicitud, por favor intentalo mas tarde.',
-						'error'
-					);
-				}
+	const login = async (form: any) => {
+		try {
+			setLoading(true);
+			const token = await getToken(messaging, {
+				vapidKey: import.meta.env.VITE_VAPI_KEY
+			});
+			const { data } = await http.post('/auth/login', {
+				...form,
+				pushNotificationsToken: token
 			})
+			dispatch(setSession(data));
+			window.location.reload();
+		} catch (error) {
+			if (axios.isAxiosError(error) && error?.response?.status === 401)
+				setError(error.response.data);
+			else {
+				Swal.fire(
+					'Error',
+					'No hemos podido completar tu solicitud, por favor intentalo mas tarde.',
+					'error'
+				);
+			}
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	const getCurrentShift = async (isLoggedIn = session.isLoggedIn) => {
