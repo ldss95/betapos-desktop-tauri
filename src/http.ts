@@ -28,7 +28,7 @@ http.interceptors.request.use(
 http.interceptors.response.use(
 	(res) => res,
 	(error) => {
-		const path = localStorage.getItem('path');
+		const path = localStorage.getItem('path') || '';
 		const forbiden = (error.response.status === 403)
 		const unauthorized = (error.response.status === 401)
 		const invalidToken = (error.response.data === 'Token invalido')
@@ -38,11 +38,7 @@ http.interceptors.response.use(
 		if (((unauthorized && url !== '/auth/authorize') || (forbiden && invalidToken)) && !validPaths.includes(path)) {
 			store.dispatch(logOut());
 
-			const url = window.location.href
-			const sharpIndex = url.indexOf('#')
-			const filePath = url.substr(0, sharpIndex)
-
-			window.location.assign(filePath + '#/login')
+			window.location.href = '/login'
 		} else return Promise.reject(error);
 	}
 );
