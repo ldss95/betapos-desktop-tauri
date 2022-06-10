@@ -137,8 +137,8 @@ const ModalSearch = ({ visible, close, input }: ModalSearchProps) => {
 								return ''
 							}
 
-							const [firstBarcode] = barcodes;
-							return firstBarcode
+							const [{ barcode }] = barcodes;
+							return barcode
 						}
 					},
 					{
