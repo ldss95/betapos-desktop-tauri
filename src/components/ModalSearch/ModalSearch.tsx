@@ -149,16 +149,16 @@ const ModalSearch = ({ visible, close, input }: ModalSearchProps) => {
 					{
 						title: 'Agregar',
 						align: 'center',
-						render: (value, record) => (
+						render: ({ barcodes, ...product }) => (
 							<PlusOutlined
 								style={{ fontSize: 24, cursor: 'pointer' }}
 								onClick={() => {
-									const product = {
-										...record,
-										barcode: record.barcodes[0].barcode
-									};
-									delete product.barcodes;
-									dispatch(addProductToCart(product));
+									dispatch(addProductToCart({
+										...product,
+										...(barcodes) && {
+											barcode: barcodes[0].barcode
+										}
+									}));
 									setFilters({});
 									form.resetFields();
 									close();
@@ -167,7 +167,7 @@ const ModalSearch = ({ visible, close, input }: ModalSearchProps) => {
 						)
 					}
 				]}
-				rowKey={(record: any) => record.id}
+				rowKey={({ id }) => id}
 				dataSource={products}
 				loading={loading}
 				pagination={pagination}
