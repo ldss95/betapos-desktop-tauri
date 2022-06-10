@@ -72,7 +72,9 @@ const cart = (state = initialState, action: any) => {
 				? state.products.find((product: any) => product.id === action.payload.id)
 				: state.products[0]
 			
-			product.quantity--
+			if(product.quantity > 1) {
+				product.quantity--
+			}
 
 			return {
 				...state,
