@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
 
 import http from '../../http';
+import { wait } from '../../helper';
 import { finishTicket, clear, increase, decrease } from '../../redux/actions/cart'
 
 import NavBar from '../../components/Navbar/Navbar';
@@ -25,6 +26,17 @@ const Main = () => {
 	const [summary, setSummary] = useState<any>({});
 
 	useEffect(() => {
+		const barcodeInput: any = document.querySelector('#barcode_input');
+		
+		barcodeInput?.addEventListener('blur', async () => {
+			await wait(0.01);
+			const focusedElement = document.querySelector(':focus')
+
+			if (!focusedElement) {
+				barcodeInput?.focus()
+			}
+		})
+
 		document.addEventListener('keydown', (event) => {
 			switch (event.code) {
 				case 'F12':

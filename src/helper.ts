@@ -2,7 +2,7 @@
  * Evita que un input pueda recibir caracteres no numericos
  * Esta funcion puede ser insertada en un Event Listener de tipo keydown
  */
- function avoidNotNumerics(event: any, decimals = false){
+function avoidNotNumerics(event: any, decimals = false){
 	if(event.key === 'Backspace')
 		return;
 
@@ -42,4 +42,8 @@ const format = {
 		)
 };
 
-export { format, avoidNotNumerics };
+async function wait(time: number) {
+	return new Promise(resolve => setTimeout(resolve, time * 1000));
+}
+
+export { format, avoidNotNumerics, wait };
