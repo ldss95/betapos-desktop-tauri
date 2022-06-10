@@ -12,13 +12,13 @@ import { LoadingOutlined } from '@ant-design/icons'
 import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
-import { getToken } from 'firebase/messaging';
+// import { getToken } from 'firebase/messaging';
 
 import './Login.scss';
 import http from '../../http';
 import { setSession, setShift } from '../../redux/actions/session';
 import { setMeta } from '../../redux/actions/meta';
-import { messaging } from '../../utils/firebase';
+// import { messaging } from '../../utils/firebase';
 import axios from 'axios';
 
 const { Title } = Typography
@@ -43,12 +43,13 @@ const Login = () => {
 	const login = async (form: any) => {
 		try {
 			setLoading(true);
-			const token = await getToken(messaging, {
-				vapidKey: import.meta.env.VITE_VAPI_KEY
-			});
+			// const token = await getToken(messaging, {
+			// 	vapidKey: import.meta.env.VITE_VAPI_KEY
+			// });
 			const { data } = await http.post('/auth/login', {
 				...form,
-				pushNotificationsToken: token
+				// pushNotificationsToken: token
+				pushNotificationsToken: ''
 			})
 			dispatch(setSession(data));
 			window.location.reload();
