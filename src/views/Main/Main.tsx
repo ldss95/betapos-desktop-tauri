@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Layout, InputNumber, Modal, Form, Row, Button, message } from 'antd';
+import { Layout } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
-import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 import http from '../../http';
 import { wait } from '../../helper';
-import { finishTicket, clear, increase, decrease } from '../../redux/actions/cart'
+import { increase, decrease } from '../../redux/actions/cart'
 
 import NavBar from '../../components/Navbar/Navbar';
 import Header from '../../components/Header/Header';
@@ -16,9 +16,9 @@ import ModalSummay from '../../components/ModalSummary/ModalSummary';
 const { Content } = Layout;
 
 const Main = () => {
-	const { cart, shiftId, role } = useSelector((state: any) => ({
+	const navigate = useNavigate();
+	const { cart, role } = useSelector((state: any) => ({
 		cart: state.cart,
-		shiftId: state.session?.shift?.id,
 		role: state.session.role
 	}));
 	const dispatch = useDispatch()
@@ -41,8 +41,8 @@ const Main = () => {
 			switch (event.code) {
 				case 'F12':
 					event.preventDefault();
-					if (role !== 'ADMIN') {
-						dispatch(finishTicket(true))
+					if (cart.products.length > 0) {
+						navigate('/')
 					}
 
 					break;
@@ -70,48 +70,6 @@ const Main = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
-	const saveTicket = (form: any) => {
-		const total = amount();
-		const { cash } = form;
-		const { discount } = cart;
-
-		if (cash >= total - discount) {
-			dispatch(finishTicket(false))
-			const products = cart.products.map((product: any) => ({
-				productId: product.id,
-				quantity: product.quantity,
-				price: product.price
-			}));
-
-			http.post('/tickets', {
-				ticket: { amount: total, status: 'DONE', shiftId, discount },
-				products
-			})
-				.then(() => {
-					dispatch(clear());
-					setSummary({
-						visible: true,
-						total,
-						discount,
-						payed: cash
-					});
-				})
-				.catch((error) => {
-					Swal.fire('Oops!', 'No se pudo guardar la factura.', 'error');
-					console.error(error)
-				});
-		} else {
-			message.warning('Dinero recibido insuficiente.')
-		}
-	};
-
-	const amount = () =>
-		cart.products.reduce(
-			(accumulated: number, currValue: any) =>
-				(accumulated += currValue.price * currValue.quantity),
-			0
-		);
-
 	return (
 		<Layout style={{ height: '100vh' }}>
 			{/* Navigation Menu */}
@@ -130,36 +88,6 @@ const Main = () => {
 			
 			{/* Right Sidebar */}
 			<Sidebar />
-
-			{/* Modal to finish billin process */}
-			<Modal
-				width={300}
-				visible={cart.finish}
-				onCancel={() => dispatch(finishTicket(false))}
-				footer={null}
-				title="Efectivo Recibido"
-				destroyOnClose
-			>
-				<Form layout="vertical" onFinish={saveTicket}>
-					<Form.Item
-						label=""
-						name="cash"
-						rules={[{ required: true }]}
-					>
-						<InputNumber
-							formatter={(value: any) => value?.replace(/[^0-9]/g, '')}
-							id="cash_input"
-							autoFocus 
-						/>
-					</Form.Item>
-
-					<Row justify="center">
-						<Button type="primary" htmlType="submit" className="sm">
-							Continuar
-						</Button>
-					</Row>
-				</Form>
-			</Modal>
 
 			{/* Summary of ticket */}
 			<ModalSummay

@@ -9,14 +9,15 @@ import Settings from './views/Settings/Settings';
 import CashCheck from './views/CashCheck/CashCheck';
 import CreditNote from './views/CreditNote/CreditNote';
 import Products from './views/Products/Products';
-import TFA from './views/Login/2FA'
-import ShiftStart from './views/Login/ShiftStart'
+import TFA from './views/Login/2FA';
+import ShiftStart from './views/Login/ShiftStart';
+import SaveTicket from './views/SaveTicket/SaveTicket';
 
 const Router = () => {
 	const location = useLocation();
 
 	useEffect(() => {
-		const path = location.hash.substr(1);
+		const path = location.pathname;
 		localStorage.setItem('path', path);
 		/*
 			path will be used by axios interceptor to determinate location
@@ -38,6 +39,7 @@ const Router = () => {
 			<Route path={'/shift-end'} element={<CashCheck />} />
 			<Route path={'/cash-check'} element={<CashCheck />} />
 			<Route path="/credit-note" element={<CreditNote />} />
+			<Route path="/save-ticket" element={<SaveTicket />} />
 		</Routes>
 	);
 };
