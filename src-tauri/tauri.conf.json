@@ -8,7 +8,7 @@
     "withGlobalTauri": true
   },
   "package": {
-    "productName": "beta-pos-desktop",
+    "productName": "Beta POS",
     "version": "0.1.0"
   },
   "tauri": {
