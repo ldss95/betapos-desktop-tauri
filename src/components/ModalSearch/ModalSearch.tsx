@@ -155,7 +155,7 @@ const ModalSearch = ({ visible, close, input }: ModalSearchProps) => {
 								onClick={() => {
 									dispatch(addProductToCart({
 										...product,
-										...(barcodes) && {
+										...(barcodes.length > 0) && {
 											barcode: barcodes[0].barcode
 										}
 									}));
