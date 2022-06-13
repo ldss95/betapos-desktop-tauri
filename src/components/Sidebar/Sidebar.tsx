@@ -11,16 +11,17 @@ import {
 import { PauseCircleOutlined, PlayCircleOutlined } from '@ant-design/icons';
 import { useSelector, useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 import './Sidebar.scss';
-import { pause, finishTicket } from '../../redux/actions/cart';
+import { pause } from '../../redux/actions/cart';
 import { format } from '../../helper';
 
 const { Sider } = Layout;
 const { Title } = Typography;
 
 const Sidebar = () => {
+	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
 	const { cart, userName, shift, businessName } = useSelector((state: any) => ({
@@ -100,9 +101,15 @@ const Sidebar = () => {
 					<Button
 						type="primary"
 						className="big"
-						onClick={() => dispatch(finishTicket(true))}
-						disabled={(!shift)}
-						style={{ marginBottom: 0 }}
+						onClick={() => {
+							if (shift && cart.products.length > 0) {
+								navigate('/save-ticket')
+							}
+						}}
+						style={{
+							marginBottom: 0,
+							opacity: (shift && cart.products.length > 0) ? 1 : 0.5
+						}}
 					>
 						Facturar
 					</Button>

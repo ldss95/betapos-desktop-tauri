@@ -61,11 +61,6 @@ const restartTicket = (id: number) => ({
 	payload: { id }
 });
 
-const finishTicket = (finish: boolean) => ({
-	type: FINISH_TICKET,
-	payload: { finish }
-})
-
 const clear = () => ({ type: CLEAR });
 
 export {
@@ -91,6 +86,5 @@ export {
 	pause,
 	removePausedTicket,
 	restartTicket,
-	finishTicket,
 	clear
 };

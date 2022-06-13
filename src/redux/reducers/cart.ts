@@ -1,6 +1,7 @@
 import moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
 
+import { ProductProps } from '../../utils/interfaces';
 import {
 	ADD_PRODUCT,
 	REMOVE_PRODUCT,
@@ -12,11 +13,19 @@ import {
 	PAUSE,
 	REMOVE_PAUSED_TICKET,
 	RESTART_TICKET,
-	FINISH_TICKET,
 	CLEAR
 } from '../actions/cart';
 
-const initialState: any = { discount: 0, products: [], paused: [] };
+interface StateProps {
+	discount: number;
+	products: ProductProps[];
+	paused: any[]
+}
+const initialState: StateProps = {
+	discount: 0,
+	products: [],
+	paused: []
+};
 
 const cart = (state = initialState, action: any) => {
 	switch (action.type) {
@@ -147,15 +156,6 @@ const cart = (state = initialState, action: any) => {
 				...ticket,
 				paused: state.paused.filter((ticket: any) => ticket.id !== action.payload.id)
 			};
-		case FINISH_TICKET:
-			const { finish } = action.payload;
-			
-			return {
-				...state,
-				...(!finish || (finish && state.products.length > 0)) && {
-					finish
-				}
-			}
 		case CLEAR:
 			return {
 				...initialState,
