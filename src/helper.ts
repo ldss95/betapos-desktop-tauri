@@ -37,7 +37,7 @@ const format = {
 			  )}`
 			: 'N/A',
 	cash: (amount: number, decimals = 0) =>
-		Intl.NumberFormat('en-IN', { minimumFractionDigits: decimals }).format(
+		Intl.NumberFormat('en-IN', { minimumFractionDigits: decimals, maximumFractionDigits: decimals }).format(
 			amount
 		)
 };
