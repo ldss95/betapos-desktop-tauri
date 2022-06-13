@@ -14,7 +14,6 @@ import {
 import Swal from 'sweetalert2'
 
 import Header from '../../components/Header/Header'
-import ModalChangePrice from '../../components/ModalChangePrice/ModalChangePrice'
 import http from '../../http'
 import { format } from '../../helper'
 
