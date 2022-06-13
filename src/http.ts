@@ -17,6 +17,7 @@ http.interceptors.request.use(
 		const { token } = state.session;
 		if (!token) return config;
 
+		// @ts-ignore
 		config.headers['Authorization'] = `Bearer ${token}`;
 		return config;
 	},
