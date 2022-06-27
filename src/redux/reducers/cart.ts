@@ -13,18 +13,28 @@ import {
 	PAUSE,
 	REMOVE_PAUSED_TICKET,
 	RESTART_TICKET,
-	CLEAR
+	CLEAR,
+	SHOW_QTY_CALCULATOR,
+	HIDE_QTY_CALCULATOR,
 } from '../actions/cart';
 
 interface StateProps {
 	discount: number;
 	products: ProductProps[];
-	paused: any[]
+	paused: any[],
+	qtyCalculator: {
+		productId: string | null;
+		visible: boolean;
+	};
 }
 const initialState: StateProps = {
 	discount: 0,
 	products: [],
-	paused: []
+	paused: [],
+	qtyCalculator: {
+		productId: null,
+		visible: false
+	}
 };
 
 const cart = (state = initialState, action: any) => {
@@ -161,6 +171,22 @@ const cart = (state = initialState, action: any) => {
 				...initialState,
 				paused: state.paused
 			};
+		case SHOW_QTY_CALCULATOR:
+			return {
+				...state,
+				qtyCalculator: {
+					visible: true,
+					productId: action.payload.productId
+				}
+			}
+		case HIDE_QTY_CALCULATOR:
+			return {
+				...state,
+				qtyCalculator: {
+					visible: false,
+					productId: null
+				}
+			}
 		default:
 			return state;
 	}

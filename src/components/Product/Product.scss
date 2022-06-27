@@ -66,7 +66,7 @@
 			display: flex;
 			align-items: center;
 			color: $color-dark-grey-1;
-			max-width: 200px;
+			max-width: 300px;
 
 			.anticon {
 				cursor: pointer;
@@ -82,11 +82,12 @@
 				background: none;
 
 				input {
-					height: 40px;
+					height: 50px;
 					font-size: 36px;
 					text-align: center;
 					font-family: SF UI Display Black;
 					text-align: right;
+					padding-right: 0;
 
 					&:focus {
 						color:$color-red !important;
@@ -101,6 +102,7 @@
 			.quantity-controls {
 				display: flex;
 				flex-direction: column;
+				margin-left: 15px;
 
 				.btn {
 					margin: 5px 0;
@@ -112,6 +114,7 @@
 					display: flex;
 					justify-content: center;
 					align-items: center;
+					cursor: pointer;
 				}
 			}
 		}

@@ -12,16 +12,14 @@ import Header from '../../components/Header/Header';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import Product from '../../components/Product/Product';
 import ModalSummay from '../../components/ModalSummary/ModalSummary';
+import ModalProductQty from '../../components/ModalProductQty/ModalProductQty';
 
 const { Content } = Layout;
 
 const Main = () => {
 	const navigate = useNavigate();
-	const { cart, role } = useSelector((state: any) => ({
-		cart: state.cart,
-		role: state.session.role
-	}));
-	const dispatch = useDispatch()
+	const cart = useSelector((state: any) => state.cart);
+	const dispatch = useDispatch();
 
 	const [summary, setSummary] = useState<any>({});
 
@@ -117,6 +115,12 @@ const Main = () => {
 						class: 'danger'
 					}
 				]}
+			/>
+
+			{/* Quantity adjusments */}
+			<ModalProductQty
+				visible={cart.qtyCalculator.visible}
+				productId={cart.qtyCalculator.productId}
 			/>
 		</Layout>
 	);

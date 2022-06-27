@@ -10,6 +10,8 @@ const PAUSE = 'PAUSE';
 const RESTART_TICKET = 'RESTART_TICKET';
 const FINISH_TICKET = 'FINISH_TICKET';
 const CLEAR = 'CLEAR';
+const SHOW_QTY_CALCULATOR = 'SHOW_QTY_CALCULATOR';
+const HIDE_QTY_CALCULATOR = 'HIDE_QTY_CALCULATOR';
 
 const addProductToCart = (payload: any) => ({
 	type: ADD_PRODUCT,
@@ -63,6 +65,13 @@ const restartTicket = (id: number) => ({
 
 const clear = () => ({ type: CLEAR });
 
+const showQtyCalculator = (productId: string) => ({
+	type: SHOW_QTY_CALCULATOR,
+	payload: { productId }
+})
+
+const hideQtyCalculagor = () => ({ type: HIDE_QTY_CALCULATOR })
+
 export {
 	ADD_PRODUCT,
 	REMOVE_PRODUCT,
@@ -76,6 +85,9 @@ export {
 	RESTART_TICKET,
 	FINISH_TICKET,
 	CLEAR,
+	SHOW_QTY_CALCULATOR,
+	HIDE_QTY_CALCULATOR,
+
 	addProductToCart,
 	removeProductFromCart,
 	increase,
@@ -86,5 +98,7 @@ export {
 	pause,
 	removePausedTicket,
 	restartTicket,
-	clear
+	clear,
+	showQtyCalculator,
+	hideQtyCalculagor
 };

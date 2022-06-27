@@ -5,6 +5,7 @@ import {
 	DeleteOutlined,
 	PlusOutlined
 } from '@ant-design/icons';
+import { FaBalanceScaleRight } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
 
 import './Product.scss';
@@ -12,9 +13,11 @@ import {
 	removeProductFromCart,
 	increase,
 	decrease,
-	setQuantity
+	setQuantity,
+	showQtyCalculator
 } from '../../redux/actions/cart';
-import { format } from '../../helper';
+import { avoidNotNumerics, format } from '../../helper';
+import RenderIf from '../RenderIf/RenderIf';
 
 const { Title, Text } = Typography;
 
@@ -24,10 +27,11 @@ interface ProductProps {
 	barcode: string;
 	imageUrl: string;
 	price: number;
+	isFractionable: boolean;
 	quantity: number;
 	index: number;
 }
-const Product = ({ id, name, barcode, price, imageUrl, quantity, index }: ProductProps) => {
+const Product = ({ id, name, barcode, price, imageUrl, quantity, index, isFractionable }: ProductProps) => {
 	const dispatch = useDispatch();
 
 	return (
@@ -50,6 +54,7 @@ const Product = ({ id, name, barcode, price, imageUrl, quantity, index }: Produc
 							const barcodeInput: any = document.querySelector('#barcode_input');
 							barcodeInput?.focus()
 						}}
+						onKeyDown={(event) => avoidNotNumerics(event, isFractionable ? 4 : 0)}
 						className="quantity-input"
 					/>
 					<div className="quantity-controls">
@@ -60,6 +65,20 @@ const Product = ({ id, name, barcode, price, imageUrl, quantity, index }: Produc
 							<MinusOutlined style={{ fontSize: 16 }} />
 						</div>
 					</div>
+					<RenderIf condition={isFractionable}>
+						<div className="quantity-controls">
+							<div className="btn" onClick={() => dispatch(showQtyCalculator(id))}>
+								<FaBalanceScaleRight style={{ fontSize: 16 }} />
+							</div>
+						</div>
+					</RenderIf>
+					<RenderIf condition={!isFractionable}>
+						<div className="quantity-controls">
+							<div className="btn" style={{ opacity: 0, cursor: 'default' }}>
+								<FaBalanceScaleRight style={{ fontSize: 16 }} />
+							</div>
+						</div>
+					</RenderIf>
 				</div>
 
 				<div className="price">
