@@ -76,6 +76,14 @@ const cart = (state = initialState, action: any) => {
 				: state.products[0]
 			
 			product.quantity++
+			const rest = product.quantity % 1
+
+			if (rest > 0) {
+				const decimals = `${rest}`.substring(2).length
+				if (decimals > 4) {
+					product.quantity = Math.round(product.quantity * 10000) / 10000
+				}
+			}
 
 			return {
 				...state,
@@ -93,6 +101,15 @@ const cart = (state = initialState, action: any) => {
 			
 			if(product.quantity > 1) {
 				product.quantity--
+			}
+
+			const rest = product.quantity % 1
+
+			if (rest > 0) {
+				const decimals = `${rest}`.substring(2).length
+				if (decimals > 4) {
+					product.quantity = Math.round(product.quantity * 10000) / 10000
+				}
 			}
 
 			return {
