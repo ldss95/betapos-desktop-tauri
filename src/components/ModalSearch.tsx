@@ -52,31 +52,36 @@ const ModalSearch = ({ visible, close, input }: ModalSearchProps) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [filters]);
 
-	const getProducts = (pagination: any) => {
-		setLoading(true);
-		http.get('/products/table', {
-			params: {
-				pagination,
-				filters
-			}
-		})
-			.then((res) => {
-				if (res) {
-					const { products, pagination } = res.data;
-					setProducts(products);
-					setPagination(pagination);
+	const getProducts = async (_pagination: any) => {
+		try {
+			setLoading(true);
+			const { data }: any = await http.get('/products/table', {
+				params: {
+					pagination: _pagination,
+					filters
 				}
-				setLoading(false);
 			})
-			.catch((error) => {
-				setLoading(false);
-				Swal.fire(
-					'Error',
-					'No se ha podido obtener la lista de productos.',
-					'error'
-				);
-				console.error(error);
-			});
+
+			if (!data) {
+				return;
+			}
+
+			const { products, pagination } = data;
+			setProducts(products.filter(({ barcodes }: any) =>
+				barcodes.length == 0 ||
+				!barcodes.find(({ barcode }: any) => barcode == '999')
+			));
+			setPagination(pagination);
+		} catch (error) {
+			Swal.fire(
+				'Error',
+				'No se ha podido obtener la lista de productos.',
+				'error'
+			);
+			console.error(error);
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	return (
