@@ -1,7 +1,7 @@
 import moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
 
-import { ProductProps } from '../../utils/interfaces';
+import { ClientProps, ProductProps } from '../../utils/interfaces';
 import {
 	ADD_PRODUCT,
 	REMOVE_PRODUCT,
@@ -16,6 +16,8 @@ import {
 	CLEAR,
 	SHOW_QTY_CALCULATOR,
 	HIDE_QTY_CALCULATOR,
+	SET_CLIENT,
+	REMOVE_CLIENT,
 } from '../actions/cart';
 
 interface StateProps {
@@ -26,6 +28,7 @@ interface StateProps {
 		productId: string | null;
 		visible: boolean;
 	};
+	client: ClientProps | null;
 }
 const initialState: StateProps = {
 	discount: 0,
@@ -34,7 +37,8 @@ const initialState: StateProps = {
 	qtyCalculator: {
 		productId: null,
 		visible: false
-	}
+	},
+	client: null
 };
 
 const cart = (state = initialState, action: any) => {
@@ -204,6 +208,17 @@ const cart = (state = initialState, action: any) => {
 					productId: null
 				}
 			}
+		case SET_CLIENT:
+			return {
+				...state,
+				client: action.payload.client
+			}
+		case REMOVE_CLIENT: {
+			return {
+				...state,
+				client: null
+			}
+		}
 		default:
 			return state;
 	}

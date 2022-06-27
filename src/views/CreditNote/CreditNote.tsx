@@ -18,7 +18,7 @@ import { useNavigate } from 'react-router-dom'
 import './CreditNote.scss'
 import http from '../../http';
 import { format } from '../../helper';
-import Header from '../../components/Header/Header';
+import { Header } from '../../components';
 import Product from './Product'
 
 const { Content } = Layout;

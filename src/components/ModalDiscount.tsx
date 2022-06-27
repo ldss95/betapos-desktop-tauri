@@ -13,9 +13,9 @@ import { DollarOutlined, PercentageOutlined, LockOutlined } from '@ant-design/ic
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2'
 
-import './ModalDiscount.scss';
-import { setDiscount } from '../../redux/actions/cart';
-import http from '../../http'
+import '../styles/ModalDiscount.scss';
+import { setDiscount } from '../redux/actions/cart';
+import http from '../http'
 
 const { Text } = Typography;
 

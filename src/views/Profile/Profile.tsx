@@ -6,7 +6,7 @@ import moment from 'moment';
 
 import http from '../../http';
 import { setSession } from '../../redux/actions/session';
-import Header from '../../components/Header/Header';
+import { Header } from '../../components';
 
 const { Content } = Layout;
 

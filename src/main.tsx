@@ -5,7 +5,7 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 import './main.scss';
 
 import App from './App'
-import UnexpectedError from './components/Error/Unexpected';
+import { UnexpectedError } from './components';
 const SENTRY_DNS = import.meta.env.VITE_SENTRY_DSN
 
 Sentry.init({

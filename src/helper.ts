@@ -29,6 +29,10 @@ const format = {
 		rnc
 			? `${rnc.substr(0, 3)}-${rnc.substr(3, 5)}-${rnc.substr(8, 1)}`
 			: 'N/A',
+	dui: (dui: string) =>
+			dui
+				? `${dui.substr(0, 3)}-${dui.substr(3, 7)}-${dui.substr(-1)}`
+				: 'N/A',
 	phone: (phone: string) =>
 		phone
 			? `(${phone.substr(0, 3)}) ${phone.substr(3, 3)}-${phone.substr(

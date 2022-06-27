@@ -2,9 +2,9 @@ import { memo } from 'react';
 import { Modal, Form, InputNumber, Row, Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { hideQtyCalculagor } from '../../redux/actions/cart';
-import { setQuantity } from '../../redux/actions/cart';
-import { avoidNotNumerics } from '../../helper';
+import { hideQtyCalculagor } from '../redux/actions/cart';
+import { setQuantity } from '../redux/actions/cart';
+import { avoidNotNumerics } from '../helper';
 
 interface ModalProductQtyProps {
 	visible: boolean;

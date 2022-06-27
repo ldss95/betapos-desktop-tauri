@@ -6,14 +6,16 @@ import {
 	Row,
 	Button,
 	Avatar,
-	message
+	message,
+	Typography
 } from 'antd';
 import {
 	CreditCardTwoTone,
 	DollarTwoTone,
 	CalculatorTwoTone,
 	ClockCircleTwoTone,
-	EditTwoTone
+	EditTwoTone,
+	CloseOutlined
 } from '@ant-design/icons';
 import { MdOutlineDeliveryDining } from 'react-icons/md';
 import { IoBagCheckOutline } from 'react-icons/io5';
@@ -23,61 +25,52 @@ import Swal from 'sweetalert2';
 
 import http from '../../http';
 import { format } from '../../helper'
-import { clear } from '../../redux/actions/cart'
-const { Sider } = Layout;
+import { clear, removeClient } from '../../redux/actions/cart'
+import { ModalSearchClient, Tile, RenderIf } from '../../components';
 
-const Tile = ({ text, Icon, selected, onClick }: any) => (
-	<div
-		style={{
-			display: 'flex',
-			flexDirection: 'column',
-			justifyContent: 'center',
-			alignItems: 'center',
-			marginRight: 15,
-			background: '#fff',
-			padding: 15,
-			borderRadius: 5,
-			width: 180,
-			height: 100,
-			fontSize: 40,
-			cursor: 'pointer',
-			borderWidth: 4,
-			borderStyle: 'solid',
-			borderColor: selected ? '#ebc444' : '#fff'
-		}}
-		onClick={onClick}
-	>
-		<Icon twoToneColor={selected ? '#ebc444' : '#cdcdcd'} />
-		<span
-			style={{
-				fontSize: 16,
-				marginTop: 15,
-				color: selected ? '#ebc444' : '#8c8c8c',
-			}}
-		>
-			{text}
-		</span>
-	</div>
-)
+const { Sider } = Layout;
+const { Text } = Typography;
+
+type PaymentTypeName = 'Efectivo' | 'Mixto' | 'Tarjeta' | 'Fiao';
 
 function SaveTicket() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const { cart, shiftId } = useSelector(({ cart, session }: any) => ({ cart, shiftId: session?.shift?.id, }));
 
-	const [paymentTypes, setPaymentTypes] = useState<{ id: string; name: string }[]>([]);
-	const [paymentMethod, setPaymentMethod] = useState<'cash' | 'credit_card' | 'mixed' | 'credit'>('cash');
+	const [paymentTypes, setPaymentTypes] = useState<{ id: string; name: PaymentTypeName }[]>([]);
+	const [paymentMethod, setPaymentMethod] = useState<string>('');
+	const [payments, setPayments] = useState({
+		cash: 0,
+		card: 0,
+		fiao: 0
+	});
 	const [orderType, setOrderType] = useState<'DELIVERY' | 'PICKUP'>('PICKUP');
-	const [cash, setCash] = useState(0);
 	const [shippingAddress, setShippingAddress] = useState<string | null>(null);
-	const [client, setClient] = useState<any>();
-	const [showClientSelector, setShowClientSector] = useState(false);
+	const [showClientSelector, setShowClientSelector] = useState(false);
 
 	useEffect(() => {
 		http.get('/payment-types')
-			.then(({ data }: any) => setPaymentTypes(data))
+			.then(({ data }: any) => {
+				if (!data) {
+					return;
+				}
+
+				setPaymentTypes(data);
+				const { id } = data.find((item: any) => item.name === 'Efectivo');
+				setPaymentMethod(id);
+			})
 			.catch(() => message.error('Error loading payment types'));
-	}, [])
+	}, []);
+
+	useEffect(() => {
+		const fiaoId = paymentTypes.find(({ name }) => name == 'Fiao')?.id;
+		const cashId = paymentTypes.find(({ name }) => name == 'Efectivo')?.id;
+
+		if (!cart.client && paymentMethod == fiaoId) {
+			setPaymentMethod(cashId || '');
+		}
+	}, [cart.client]);
 
 	const itbis = cart.products.reduce((total: number, { price, quantity, itbis }: any) => {
 		if(!itbis) {
@@ -118,7 +111,7 @@ function SaveTicket() {
 					shiftId,
 					discount,
 					shippingAddress,
-					clientId: client?.id,
+					clientId: cart.client?.id,
 					orderType
 				},
 				products,
@@ -149,6 +142,24 @@ function SaveTicket() {
 				(accumulated += currValue.price * currValue.quantity),
 			0
 		);
+
+	const paymentMethodIcon = (paymentMethod: PaymentTypeName) => {
+		if(paymentMethod == 'Efectivo') {
+			return DollarTwoTone
+		}
+
+		if(paymentMethod == 'Tarjeta') {
+			return CreditCardTwoTone
+		}
+
+		if(paymentMethod == 'Mixto') {
+			return CalculatorTwoTone
+		}
+
+		if(paymentMethod == 'Fiao') {
+			return ClockCircleTwoTone
+		}
+	}
 
 	return (
 		<div
@@ -196,18 +207,56 @@ function SaveTicket() {
 
 							<Row justify='center'>
 								<Avatar
-									// src={}
+									src={cart.client?.photoUrl}
 									size={100}
 								>
-									<h2>CF</h2>
+									<RenderIf condition={!cart.client}>
+										<h2>CF</h2>
+									</RenderIf>
+
+									<RenderIf condition={cart.client && !cart.client?.photoUrl}>
+										<h2>
+											{cart
+												?.client
+												?.name
+												?.split(' ')
+												?.map((text: string) => text.charAt(0))
+												?.join('')
+											}
+										</h2>
+									</RenderIf>
 								</Avatar>
+								<RenderIf condition={cart.client}>
+									<div
+										style={{
+											marginLeft: -15,
+											background: '#fff',
+											width: 25,
+											height: 25,
+											borderRadius: 15,
+											display: 'flex',
+											justifyContent: 'center',
+											alignItems: 'center',
+											zIndex: 10,
+											cursor: 'pointer'
+										}}
+										onClick={() => dispatch(removeClient())}
+									>
+										<CloseOutlined />
+									</div>
+								</RenderIf>
 							</Row>
 							<br />
 							<Row justify='center'>
 								<h3 style={{ color: '#fff', fontWeight: 'bold' }}>
-									Consumidor Final
+									<RenderIf condition={cart.client}>
+										<Text style={{ color: '#fff' }}>{cart.client?.name}</Text>
+									</RenderIf>
+									<RenderIf condition={!cart.client}>
+										<Text style={{ color: '#fff' }}>Consumidor Final</Text>
+									</RenderIf>
 									<Button
-										onClick={() => setShowClientSector(true)}
+										onClick={() => setShowClientSelector(true)}
 										style={{
 											border: 'none',
 											background: 'none',
@@ -258,30 +307,16 @@ function SaveTicket() {
 					<div>
 						<h2>Selecciona un metodo de pago</h2>
 						<div style={{ display: 'flex' }}>
-							<Tile
-								text='Efectivo'
-								Icon={DollarTwoTone}
-								selected={paymentMethod === 'cash'}
-								onClick={() => setPaymentMethod('cash')}
-							/>
-							<Tile
-								text='Tarjeta de crédito'
-								Icon={CreditCardTwoTone}
-								selected={paymentMethod === 'credit_card'}
-								onClick={() => setPaymentMethod('credit_card')}
-							/>
-							<Tile
-								text='Mixto'
-								Icon={CalculatorTwoTone}
-								selected={paymentMethod === 'mixed'}
-								onClick={() => setPaymentMethod('mixed')}
-							/>
-							<Tile
-								text='Fiao'
-								Icon={ClockCircleTwoTone}
-								selected={paymentMethod === 'credit'}
-								onClick={() => setPaymentMethod('credit')}
-							/>
+							{paymentTypes.map(({ id, name }) => (
+								<Tile
+									key={'payment-m-' + name}
+									text={name}
+									Icon={paymentMethodIcon(name)}
+									selected={paymentMethod === id}
+									onClick={() => setPaymentMethod(id)}
+									disabled={name == 'Fiao' && (!cart.client || !cart?.client?.hasCredit)}
+								/>
+							))}
 						</div>
 						<Divider />
 
@@ -298,25 +333,21 @@ function SaveTicket() {
 								text='Delivery'
 								Icon={MdOutlineDeliveryDining}
 								selected={orderType === 'DELIVERY'}
-								onClick={async () => {
-									setOrderType('DELIVERY');
-									// await wait(1000);
-									// const deliveryAddressInput: any = document.querySelector('#delivery_address_input');
-									// deliveryAddressInput.focus();
-								}}
+								onClick={() => setOrderType('DELIVERY')}
 							/>
 						</div>
-						{orderType === 'DELIVERY' && (
+						<RenderIf condition={orderType === 'DELIVERY'}>
 							<>
 								<br />
 								<label>Direccion de entrega</label>
 								<Input
 									id='delivery_address_input'
 									onChange={({ target: { value } }) => setShippingAddress(value || null)}
+									defaultValue={cart.client?.address || ''}
 									autoFocus
 								/>
 							</>
-						)}
+						</RenderIf>
 					</div>
 
 					<Row justify='end'>
@@ -330,6 +361,11 @@ function SaveTicket() {
 					</Row>
 				</Layout>
 			</Layout>
+
+			<ModalSearchClient
+				visible={showClientSelector}
+				close={() => setShowClientSelector(false)}
+			/>
 		</div>
 	)
 }

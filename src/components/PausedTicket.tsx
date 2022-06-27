@@ -5,8 +5,8 @@ import moment from 'moment';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import './PausedTicket.scss';
-import { removePausedTicket, restartTicket } from '../../redux/actions/cart';
+import '../styles/PausedTicket.scss';
+import { removePausedTicket, restartTicket } from '../redux/actions/cart';
 
 const { Title, Text } = Typography;
 

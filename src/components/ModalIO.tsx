@@ -13,7 +13,7 @@ import { LockOutlined } from '@ant-design/icons';
 import Swal from 'sweetalert2';
 import { useSelector } from 'react-redux';
 
-import http from '../../http';
+import http from '../http';
 
 const { TextArea } = Input;
 const { Title } = Typography;

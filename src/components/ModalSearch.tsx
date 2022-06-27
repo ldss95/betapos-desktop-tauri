@@ -4,9 +4,9 @@ import { PlusOutlined } from '@ant-design/icons';
 import Swal from 'sweetalert2';
 import { useDispatch } from 'react-redux';
 
-import http from '../../http';
-import { format } from '../../helper';
-import { addProductToCart } from '../../redux/actions/cart';
+import http from '../http';
+import { format } from '../helper';
+import { addProductToCart } from '../redux/actions/cart';
 
 const PAGE_SIZE = 100;
 

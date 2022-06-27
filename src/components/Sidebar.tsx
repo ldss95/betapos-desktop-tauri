@@ -13,9 +13,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
 import { NavLink, useNavigate } from 'react-router-dom';
 
-import './Sidebar.scss';
-import { pause } from '../../redux/actions/cart';
-import { format } from '../../helper';
+import '../styles/Sidebar.scss';
+import { pause } from '../redux/actions/cart';
+import { format } from '../helper';
 
 const { Sider } = Layout;
 const { Title } = Typography;

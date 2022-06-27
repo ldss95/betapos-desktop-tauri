@@ -6,12 +6,12 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import axios from 'axios'
 
-import './Header.scss';
-import http from '../../http';
-import { toggleMenu } from '../../redux/actions/navbar';
-import { addProductToCart } from '../../redux/actions/cart';
-import ModalSearch from '../ModalSearch/ModalSearch';
-import ModalSelectProducts from '../ModalProductSelector/ModalSelectProducts';
+import '../styles/Header.scss';
+import http from '../http';
+import { toggleMenu } from '../redux/actions/navbar';
+import { addProductToCart } from '../redux/actions/cart';
+import ModalSearch from './ModalSearch';
+import ModalSelectProducts from './ModalProductSelector';
 
 const { Header } = Layout;
 const { Title } = Typography;

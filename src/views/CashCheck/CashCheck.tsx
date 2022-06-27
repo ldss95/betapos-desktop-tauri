@@ -19,8 +19,7 @@ import './CashCheck.scss';
 import { format, avoidNotNumerics } from '../../helper';
 import http from '../../http';
 import { logOut } from '../../redux/actions/session';
-import Header from '../../components/Header/Header';
-import ModalSummary from '../../components/ModalSummary/ModalSummary'
+import { Header, ModalSummary } from '../../components';
 
 const { Content } = Layout;
 const { Text, Title } = Typography;

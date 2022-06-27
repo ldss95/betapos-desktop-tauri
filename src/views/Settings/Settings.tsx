@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
 import { useSelector, useDispatch } from 'react-redux';
 
 import './Settings.scss';
-import Header from '../../components/Header/Header';
+import { Header } from '../../components';
 import http from '../../http';
 import { setMeta } from '../../redux/actions/meta'
 

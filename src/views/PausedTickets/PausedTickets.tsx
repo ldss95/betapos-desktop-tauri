@@ -1,8 +1,7 @@
 import { Layout, Row, Typography } from 'antd';
 import { useSelector } from 'react-redux';
 
-import Header from '../../components/Header/Header';
-import Ticket from '../../components/PausedTicket/PausedTicket';
+import { Header, PausedTicket } from '../../components';
 
 const { Content } = Layout;
 const { Title } = Typography;
@@ -26,7 +25,7 @@ const PausedTickets = () => {
 				)}
 
 				{paused.map((ticket: any) => (
-					<Ticket
+					<PausedTicket
 						name={ticket.clientName}
 						products={ticket.products.length}
 						date={ticket.date}

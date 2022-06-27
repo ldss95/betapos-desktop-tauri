@@ -1,5 +1,5 @@
 import { useState, useRef, memo } from 'react';
-import { Drawer, Typography, Avatar, Row, message } from 'antd';
+import { Drawer, Typography, Row, message } from 'antd';
 import {
 	UserOutlined,
 	PoweroffOutlined,
@@ -15,12 +15,11 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
 
-import './Navbar.scss';
-import { logOut } from '../../redux/actions/session';
-import { toggleMenu } from '../../redux/actions/navbar';
-import ModalDiscount from '../ModalDiscount/ModalDiscount';
-import ModalIO from '../ModalIO/ModalIO';
-import http from '../../http';
+import '../styles/Navbar.scss';
+import { logOut } from '../redux/actions/session';
+import { toggleMenu } from '../redux/actions/navbar';
+import { ModalDiscount, ModalIO } from '.'
+import http from '../http';
 
 const { Title } = Typography;
 const Navbar = () => {

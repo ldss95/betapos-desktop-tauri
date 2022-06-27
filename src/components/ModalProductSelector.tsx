@@ -1,6 +1,6 @@
 import { memo } from 'react'
 import { Modal } from 'antd'
-import ProductCard from '../Product/MiniCard'
+import ProductCard from './MiniCard'
 
 interface ModalSelectProductProps {
 	visible: boolean;

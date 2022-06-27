@@ -8,12 +8,11 @@ import {
 	List,
 	Row,
 	Form,
-	Input,
-	Button
+	Input
 } from 'antd'
 import Swal from 'sweetalert2'
 
-import Header from '../../components/Header/Header'
+import { Header } from '../../components'
 import http from '../../http'
 import { format } from '../../helper'
 

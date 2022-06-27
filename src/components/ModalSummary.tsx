@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { Modal, Row, Typography, Divider } from 'antd';
 
-import { format } from '../../helper';
+import { format } from '../helper';
 
 const { Title, Text } = Typography;
 

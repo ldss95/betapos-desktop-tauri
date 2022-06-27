@@ -8,16 +8,16 @@ import {
 import { FaBalanceScaleRight } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
 
-import './Product.scss';
+import '../styles/Product.scss';
 import {
 	removeProductFromCart,
 	increase,
 	decrease,
 	setQuantity,
 	showQtyCalculator
-} from '../../redux/actions/cart';
-import { avoidNotNumerics, format } from '../../helper';
-import RenderIf from '../RenderIf/RenderIf';
+} from '../redux/actions/cart';
+import { avoidNotNumerics, format } from '../helper';
+import RenderIf from './RenderIf';
 
 const { Title, Text } = Typography;
 

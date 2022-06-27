@@ -1,7 +1,7 @@
 import { Typography } from 'antd'
 
-import './MiniCard.scss'
-import { format } from '../../helper'
+import '../styles/MiniCard.scss'
+import { format } from '../helper'
 const { Text, Title } = Typography
 
 interface MiniCardProps {

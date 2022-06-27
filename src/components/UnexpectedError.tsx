@@ -1,7 +1,7 @@
 import { Button } from 'antd';
 import { AlertOutlined } from '@ant-design/icons';
 
-import './Unexpected.scoped.scss';
+import '../styles/UnexpectedError.scoped.scss';
 
 const Unexpected = () => {
 	return (

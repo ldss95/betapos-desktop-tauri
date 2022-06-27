@@ -1,3 +1,5 @@
+import { ClientProps } from "../../utils/interfaces";
+
 const ADD_PRODUCT = 'ADD_PRODUCT';
 const REMOVE_PRODUCT = 'REMOVE_PRODUCT';
 const REMOVE_PAUSED_TICKET = 'REMOVE_PAUSED_TICKET';
@@ -12,6 +14,8 @@ const FINISH_TICKET = 'FINISH_TICKET';
 const CLEAR = 'CLEAR';
 const SHOW_QTY_CALCULATOR = 'SHOW_QTY_CALCULATOR';
 const HIDE_QTY_CALCULATOR = 'HIDE_QTY_CALCULATOR';
+const SET_CLIENT = 'SET_CLIENT';
+const REMOVE_CLIENT = 'REMOVE_CLIENT';
 
 const addProductToCart = (payload: any) => ({
 	type: ADD_PRODUCT,
@@ -68,7 +72,14 @@ const clear = () => ({ type: CLEAR });
 const showQtyCalculator = (productId: string) => ({
 	type: SHOW_QTY_CALCULATOR,
 	payload: { productId }
-})
+});
+
+const setClient = (client: ClientProps) => ({
+	type: SET_CLIENT,
+	payload: { client }
+});
+
+const removeClient = () => ({ type: REMOVE_CLIENT });
 
 const hideQtyCalculagor = () => ({ type: HIDE_QTY_CALCULATOR })
 
@@ -87,6 +98,8 @@ export {
 	CLEAR,
 	SHOW_QTY_CALCULATOR,
 	HIDE_QTY_CALCULATOR,
+	SET_CLIENT,
+	REMOVE_CLIENT,
 
 	addProductToCart,
 	removeProductFromCart,
@@ -100,5 +113,7 @@ export {
 	restartTicket,
 	clear,
 	showQtyCalculator,
-	hideQtyCalculagor
+	hideQtyCalculagor,
+	setClient,
+	removeClient
 };

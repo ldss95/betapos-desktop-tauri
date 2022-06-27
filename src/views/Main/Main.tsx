@@ -7,12 +7,14 @@ import http from '../../http';
 import { wait } from '../../helper';
 import { increase, decrease } from '../../redux/actions/cart'
 
-import NavBar from '../../components/Navbar/Navbar';
-import Header from '../../components/Header/Header';
-import Sidebar from '../../components/Sidebar/Sidebar';
-import Product from '../../components/Product/Product';
-import ModalSummay from '../../components/ModalSummary/ModalSummary';
-import ModalProductQty from '../../components/ModalProductQty/ModalProductQty';
+import {
+	NavBar,
+	Header,
+	Sidebar,
+	Product,
+	ModalSummary,
+	ModalProductQty
+} from '../../components';
 
 const { Content } = Layout;
 
@@ -88,7 +90,7 @@ const Main = () => {
 			<Sidebar />
 
 			{/* Summary of ticket */}
-			<ModalSummay
+			<ModalSummary
 				visible={summary.visible}
 				close={() => setSummary({ ...summary, visible: false })}
 				items={[
