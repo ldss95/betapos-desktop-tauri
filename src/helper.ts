@@ -3,7 +3,7 @@
  * Esta funcion puede ser insertada en un Event Listener de tipo keydown
  */
 function avoidNotNumerics(event: any, decimals = 0){
-	if(event.key === 'Backspace')
+	if(['Backspace', 'Delete', 'Tab', 'ArrowRight', 'ArrowLeft', 'Enter'].includes(event.key))
 		return;
 
 	if(event.key === ' ')
