@@ -2,7 +2,7 @@
  * Evita que un input pueda recibir caracteres no numericos
  * Esta funcion puede ser insertada en un Event Listener de tipo keydown
  */
-function avoidNotNumerics(event: any, decimals = false){
+function avoidNotNumerics(event: any, decimals = 0){
 	if(event.key === 'Backspace')
 		return;
 
@@ -13,8 +13,8 @@ function avoidNotNumerics(event: any, decimals = false){
 		return event.preventDefault();
 		
 	const hasPoint = event.target.value.includes('.');
-	const have2Decimals = hasPoint && event.target.value.split('.').pop().length === 2;
-	if(have2Decimals)
+	const limitDecimals = hasPoint && event.target.value.split('.').pop().length === decimals;
+	if(limitDecimals)
 		return event.preventDefault()
 		
 	const isFirstPoint = (event.key === '.' && !event.target.value.includes('.'));
