@@ -1,4 +1,4 @@
-import { ClientProps } from "../../utils/interfaces";
+import { ClientProps, TicketSummaryProps } from "../../utils/interfaces";
 
 const ADD_PRODUCT = 'ADD_PRODUCT';
 const REMOVE_PRODUCT = 'REMOVE_PRODUCT';
@@ -16,6 +16,9 @@ const SHOW_QTY_CALCULATOR = 'SHOW_QTY_CALCULATOR';
 const HIDE_QTY_CALCULATOR = 'HIDE_QTY_CALCULATOR';
 const SET_CLIENT = 'SET_CLIENT';
 const REMOVE_CLIENT = 'REMOVE_CLIENT';
+const SET_SUMMARY = 'SET_SUMMARY';
+const SHOW_LAST_TICKET_SUMMARY = 'SHOW_LAST_TICKET_SUMMARY';
+const HIDE_LAST_TICKET_SUMMARY = 'HIDE_LAST_TICKET_SUMMARY';
 
 const addProductToCart = (payload: any) => ({
 	type: ADD_PRODUCT,
@@ -80,8 +83,13 @@ const setClient = (client: ClientProps) => ({
 });
 
 const removeClient = () => ({ type: REMOVE_CLIENT });
-
 const hideQtyCalculagor = () => ({ type: HIDE_QTY_CALCULATOR })
+const setSummary = (summary: TicketSummaryProps) => ({
+	type: SET_SUMMARY,
+	payload: { summary }
+})
+const showLastTicketSummary = () => ({ type: SHOW_LAST_TICKET_SUMMARY });
+const hideLastTicketSummary = () => ({ type: HIDE_LAST_TICKET_SUMMARY })
 
 export {
 	ADD_PRODUCT,
@@ -100,6 +108,9 @@ export {
 	HIDE_QTY_CALCULATOR,
 	SET_CLIENT,
 	REMOVE_CLIENT,
+	SHOW_LAST_TICKET_SUMMARY,
+	HIDE_LAST_TICKET_SUMMARY,
+	SET_SUMMARY,
 
 	addProductToCart,
 	removeProductFromCart,
@@ -115,5 +126,8 @@ export {
 	showQtyCalculator,
 	hideQtyCalculagor,
 	setClient,
-	removeClient
+	removeClient,
+	showLastTicketSummary,
+	hideLastTicketSummary,
+	setSummary
 };

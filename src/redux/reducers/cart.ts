@@ -1,7 +1,7 @@
 import moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
 
-import { ClientProps, ProductProps } from '../../utils/interfaces';
+import { ClientProps, ProductProps, TicketSummaryProps } from '../../utils/interfaces';
 import {
 	ADD_PRODUCT,
 	REMOVE_PRODUCT,
@@ -18,6 +18,9 @@ import {
 	HIDE_QTY_CALCULATOR,
 	SET_CLIENT,
 	REMOVE_CLIENT,
+	SET_SUMMARY,
+	SHOW_LAST_TICKET_SUMMARY,
+	HIDE_LAST_TICKET_SUMMARY
 } from '../actions/cart';
 
 interface StateProps {
@@ -29,6 +32,8 @@ interface StateProps {
 		visible: boolean;
 	};
 	client: ClientProps | null;
+	lastTicketSummary: TicketSummaryProps | null,
+	showLastTicketSummary: boolean;
 }
 const initialState: StateProps = {
 	discount: 0,
@@ -38,7 +43,9 @@ const initialState: StateProps = {
 		productId: null,
 		visible: false
 	},
-	client: null
+	client: null,
+	showLastTicketSummary: false,
+	lastTicketSummary: null
 };
 
 const cart = (state = initialState, action: any) => {
@@ -219,6 +226,21 @@ const cart = (state = initialState, action: any) => {
 				client: null
 			}
 		}
+		case SET_SUMMARY:
+			return {
+				...state,
+				lastTicketSummary: action.payload.summary
+			}
+		case SHOW_LAST_TICKET_SUMMARY:
+			return {
+				...state,
+				showLastTicketSummary: true
+			}
+		case HIDE_LAST_TICKET_SUMMARY:
+			return {
+				...state,
+				showLastTicketSummary: false
+			}
 		default:
 			return state;
 	}

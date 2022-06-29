@@ -24,3 +24,14 @@ export interface ClientProps {
 	createdAt: string;
 	updatedAt: string;
 }
+
+export interface TicketSummaryProps {
+	total: number;
+	discount: number;
+	payments: {
+		amount: number;
+		type: string;
+	}[];
+	change: number;
+	cashReceived: number;
+}

@@ -7,7 +7,10 @@ import {
 	Button,
 	Avatar,
 	message,
-	Typography
+	Typography,
+	Modal,
+	Form,
+	InputNumber
 } from 'antd';
 import {
 	CreditCardTwoTone,
@@ -24,9 +27,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
 
 import http from '../../http';
-import { format } from '../../helper'
-import { clear, removeClient } from '../../redux/actions/cart'
+import { avoidNotNumerics, format } from '../../helper'
+import { clear, removeClient, showLastTicketSummary, setSummary } from '../../redux/actions/cart'
 import { ModalSearchClient, Tile, RenderIf } from '../../components';
+import ModalMixedPayment from '../../components/ModalMixedPayment';
 
 const { Sider } = Layout;
 const { Text } = Typography;
@@ -39,15 +43,17 @@ function SaveTicket() {
 	const { cart, shiftId } = useSelector(({ cart, session }: any) => ({ cart, shiftId: session?.shift?.id, }));
 
 	const [paymentTypes, setPaymentTypes] = useState<{ id: string; name: PaymentTypeName }[]>([]);
-	const [paymentMethod, setPaymentMethod] = useState<string>('');
+	const [paymentMethod, setPaymentMethod] = useState<{ id: string; name: PaymentTypeName } | null>(null);
 	const [payments, setPayments] = useState({
 		cash: 0,
-		card: 0,
-		fiao: 0
-	});
+		credit: 0,
+		card: 0
+	})
+	const [showMixedPaymentDetails, setShowMixedPaymentDetails] = useState(false);
 	const [orderType, setOrderType] = useState<'DELIVERY' | 'PICKUP'>('PICKUP');
 	const [shippingAddress, setShippingAddress] = useState<string | null>(null);
 	const [showClientSelector, setShowClientSelector] = useState(false);
+	const [showReceivedCashModal, setShowReceivedCashModal] = useState(false);
 
 	useEffect(() => {
 		http.get('/payment-types')
@@ -57,18 +63,16 @@ function SaveTicket() {
 				}
 
 				setPaymentTypes(data);
-				const { id } = data.find((item: any) => item.name === 'Efectivo');
-				setPaymentMethod(id);
+				const _default = data.find((item: any) => item.name === 'Efectivo');
+				setPaymentMethod(_default);
 			})
 			.catch(() => message.error('Error loading payment types'));
 	}, []);
 
 	useEffect(() => {
-		const fiaoId = paymentTypes.find(({ name }) => name == 'Fiao')?.id;
-		const cashId = paymentTypes.find(({ name }) => name == 'Efectivo')?.id;
-
-		if (!cart.client && paymentMethod == fiaoId) {
-			setPaymentMethod(cashId || '');
+		if (!cart.client && paymentMethod?.name == 'Fiao') {
+			const cashMethod = paymentTypes.find(({ name }) => name == 'Efectivo');
+			setPaymentMethod(cashMethod!);
 		}
 	}, [cart.client]);
 
@@ -88,21 +92,48 @@ function SaveTicket() {
 		return total + (price * quantity / 1.18);
 	}, 0)
 
-	const saveTicket = async (form: any) => {
+	const saveTicket = async ({ cash }: { cash?: number } = {}) => {
 		try {
 			const total = amount();
-			const { cash } = form;
 			const { discount } = cart;
-
-			if (cash && (cash <= total - discount)) {
-				return message.warning('Dinero recibido insuficiente.')
-			}
 
 			const products = cart.products.map((product: any) => ({
 				productId: product.id,
 				quantity: product.quantity,
 				price: product.price
 			}));
+
+			const ticketPayments: any[] = [];
+			if (paymentMethod?.name === 'Mixto') {
+				if (payments.cash > 0) {
+					const { id } = paymentTypes.find(({ name }) => name === 'Efectivo')!;
+					ticketPayments.push({
+						typeId: id,
+						amount: payments.cash
+					});
+				}
+
+				if (payments.card > 0) {
+					const { id } = paymentTypes.find(({ name }) => name === 'Tarjeta')!;
+					ticketPayments.push({
+						typeId: id,
+						amount: payments.card
+					});
+				}
+
+				if (payments.credit > 0) {
+					const { id } = paymentTypes.find(({ name }) => name === 'Fiao')!;
+					ticketPayments.push({
+						typeId: id,
+						amount: payments.credit
+					});
+				}
+			} else {
+				ticketPayments.push({
+					typeId: paymentMethod?.id,
+					amount: total
+				});
+			}
 
 			await http.post('/tickets', {
 				ticket: {
@@ -112,23 +143,57 @@ function SaveTicket() {
 					discount,
 					shippingAddress,
 					clientId: cart.client?.id,
-					orderType
+					orderType,
+					paymentTypeId: paymentMethod?.id,
 				},
 				products,
-				payments: [
-					{
-						typeId: paymentTypes.find(({ name }: any) => name === 'Efectivo')?.id,
-						amount: total - discount
-					}
-				]
+				payments: ticketPayments
 			})
 			dispatch(clear());
-			// setSummary({
-			// 	visible: true,
-			// 	total,
-			// 	discount,
-			// 	payed: cash
-			// });
+			dispatch(setSummary({
+				cashReceived: cash || 0,
+				total,
+				discount,
+				change: 0,
+				payments: [],
+				...(paymentMethod?.name == 'Efectivo') && {
+					change: cash! - total + discount,
+					payments: [{
+						type: 'Efectivo',
+						amount: total - discount
+					}]
+				},
+				...(paymentMethod?.name == 'Tarjeta') && {
+					payments: [{
+						type: 'tarjeta',
+						amount: total - discount
+					}]
+				},
+				...(paymentMethod?.name == 'Fiao') && {
+					payments: [{
+						type: 'Fiao',
+						amount: total - discount
+					}]
+				},
+				...(paymentMethod?.name == 'Mixto' && payments.cash > 0) && {
+					change: cash! - (total - discount - payments.card - payments.credit),
+					payments: [
+						{
+							type: 'Efectivo',
+							amount: payments.cash
+						},
+						{
+							type: 'Tarjeta',
+							amount: payments.card
+						},
+						{
+							type: 'Fiao',
+							amount: payments.credit
+						}
+					]
+				},
+			}));
+			dispatch(showLastTicketSummary())
 			navigate('/main');
 		} catch (error) {
 			Swal.fire('Oops!', 'No se pudo guardar la factura.', 'error');
@@ -312,8 +377,8 @@ function SaveTicket() {
 									key={'payment-m-' + name}
 									text={name}
 									Icon={paymentMethodIcon(name)}
-									selected={paymentMethod === id}
-									onClick={() => setPaymentMethod(id)}
+									selected={paymentMethod?.id === id}
+									onClick={() => setPaymentMethod({ id, name })}
 									disabled={name == 'Fiao' && (!cart.client || !cart?.client?.hasCredit)}
 								/>
 							))}
@@ -354,7 +419,17 @@ function SaveTicket() {
 						<Button
 							type="primary"
 							className="big"
-							onClick={saveTicket}
+							onClick={() => {
+								if (paymentMethod?.name == 'Mixto') {
+									return setShowMixedPaymentDetails(true);
+								}
+
+								if (paymentMethod?.name == 'Efectivo') {
+									return setShowReceivedCashModal(true)
+								}
+
+								saveTicket();
+							}}
 						>
 							Guardar
 						</Button>
@@ -366,6 +441,56 @@ function SaveTicket() {
 				visible={showClientSelector}
 				close={() => setShowClientSelector(false)}
 			/>
+
+			<ModalMixedPayment
+				visible={showMixedPaymentDetails}
+				close={() => setShowMixedPaymentDetails(false)}
+				hasCredit={cart.client?.hasCredit}
+				total={amount()}
+				onDone={(payments) => {
+					setPayments(payments);
+					if (payments.cash > 0) {
+						return setShowReceivedCashModal(true);
+					}
+
+					saveTicket();
+				}}
+			/>
+
+			<Modal
+				width={300}
+				title='Dinero recibido'
+				visible={showReceivedCashModal}
+				onCancel={() => setShowReceivedCashModal(false)}
+				footer={null}
+				destroyOnClose
+			>
+				<Form layout='vertical' onFinish={saveTicket}>
+					<Form.Item
+						name='cash'
+						label='Monto'
+						rules={[
+							{
+								required: true,
+								message: 'Ingrese el monto recibido'
+							},
+							{
+								type: 'number',
+								min: payments.cash > 0 ? payments.cash : amount() - cart.discount,
+								message: 'El monto recibido no puede ser menor al total'
+							}
+						]}
+					>
+						<InputNumber autoFocus onKeyDown={avoidNotNumerics} />
+					</Form.Item>
+					
+					<Row justify='center'>
+						<Button type='primary' htmlType='submit'>
+							Guardar
+						</Button>
+					</Row>
+				</Form>
+			</Modal>
 		</div>
 	)
 }

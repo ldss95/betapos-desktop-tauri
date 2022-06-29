@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Layout } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import http from '../../http';
 import { wait } from '../../helper';
-import { increase, decrease } from '../../redux/actions/cart'
+import { increase, decrease, hideLastTicketSummary } from '../../redux/actions/cart'
 
 import {
 	NavBar,
@@ -13,7 +13,7 @@ import {
 	Sidebar,
 	Product,
 	ModalSummary,
-	ModalProductQty
+	ModalProductQty,
 } from '../../components';
 
 const { Content } = Layout;
@@ -23,7 +23,7 @@ const Main = () => {
 	const cart = useSelector((state: any) => state.cart);
 	const dispatch = useDispatch();
 
-	const [summary, setSummary] = useState<any>({});
+	console.log(cart)
 
 	useEffect(() => {
 		const barcodeInput: any = document.querySelector('#barcode_input');
@@ -90,34 +90,39 @@ const Main = () => {
 			<Sidebar />
 
 			{/* Summary of ticket */}
-			<ModalSummary
-				visible={summary.visible}
-				close={() => setSummary({ ...summary, visible: false })}
-				items={[
-					{
-						title: 'Total',
-						amount: summary.total
-					},
-					{
-						title: 'Descuento',
-						amount: summary.discount
-					},
-					{
-						title: 'Total a pagar',
-						amount: (summary.total - summary.discount)
-					},
-					{
-						title: 'Efectivo',
-						amount: summary.payed
-					},
-					{
-						title: 'Devuelto',
-						amount: summary.payed - (summary.total - summary.discount),
-						main: true,
-						class: 'danger'
-					}
-				]}
-			/>
+			{cart.lastTicketSummary && (
+				<ModalSummary
+					visible={cart.showLastTicketSummary}
+					close={() => dispatch(hideLastTicketSummary())}
+					items={[
+						{
+							title: 'Total',
+							amount: cart.lastTicketSummary?.total
+						},
+						{
+							title: 'Descuento',
+							amount: cart.lastTicketSummary?.discount
+						},
+						{
+							title: 'Total a pagar',
+							amount: (cart.lastTicketSummary?.total - cart.lastTicketSummary?.discount)
+						},
+						...cart
+							.lastTicketSummary
+							?.payments
+							?.map(({ amount, type }: any) => ({
+								title: type,
+								amount
+							})),
+						{
+							title: 'Devuelto',
+							amount: cart.lastTicketSummary?.change,
+							main: true,
+							class: 'danger'
+						}
+					]}
+				/>
+			)}
 
 			{/* Quantity adjusments */}
 			<ModalProductQty
