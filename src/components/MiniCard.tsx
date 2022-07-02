@@ -24,9 +24,6 @@ const MiniCard = ({ id, name, barcode, reference, price, index, clickTrigger }: 
             <Title level={5}>{name.substr(0, 16)}</Title>
             <br />
             
-            <Text>ID: {id}</Text>
-            <br />
-
             <Text>Bar: {barcode}</Text>
             <br />
             
