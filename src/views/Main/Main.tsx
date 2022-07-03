@@ -126,8 +126,8 @@ const Main = () => {
 
 			{/* Quantity adjusments */}
 			<ModalProductQty
-				visible={cart.qtyCalculator.visible}
-				productId={cart.qtyCalculator.productId}
+				visible={cart?.qtyCalculator?.visible}
+				productId={cart?.qtyCalculator?.productId}
 			/>
 		</Layout>
 	);
