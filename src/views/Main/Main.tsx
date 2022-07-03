@@ -110,7 +110,7 @@ const Main = () => {
 							?.payments
 							?.map(({ amount, type }: any) => ({
 								title: type,
-								amount
+								amount: amount || 0
 							})),
 						{
 							title: 'Devuelto',

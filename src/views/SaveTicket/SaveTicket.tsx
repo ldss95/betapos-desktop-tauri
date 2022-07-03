@@ -447,9 +447,13 @@ function SaveTicket() {
 				close={() => setShowMixedPaymentDetails(false)}
 				hasCredit={cart.client?.hasCredit}
 				total={amount()}
-				onDone={(payments) => {
-					setPayments(payments);
-					if (payments.cash > 0) {
+				onDone={({ cash, credit, card }) => {
+					setPayments({
+						cash: cash || 0,
+						credit: credit || 0,
+						card: card || 0
+					});
+					if (cash > 0) {
 						return setShowReceivedCashModal(true);
 					}
 
