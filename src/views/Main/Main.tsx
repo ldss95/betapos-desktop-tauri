@@ -23,8 +23,6 @@ const Main = () => {
 	const cart = useSelector((state: any) => state.cart);
 	const dispatch = useDispatch();
 
-	console.log(cart)
-
 	useEffect(() => {
 		const barcodeInput: any = document.querySelector('#barcode_input');
 		
