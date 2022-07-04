@@ -73,7 +73,7 @@ const Sidebar = () => {
 					</Button>
 
 					<NavLink
-						to="paused"
+						to="/paused"
 						onClick={event => {
 							if(!shift){
 								event.preventDefault();
