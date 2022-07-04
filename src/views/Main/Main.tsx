@@ -40,7 +40,7 @@ const Main = () => {
 				case 'F12':
 					event.preventDefault();
 					if (cart.products.length > 0) {
-						navigate('/')
+						navigate('/save-ticket')
 					}
 
 					break;
