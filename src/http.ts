@@ -33,7 +33,7 @@ http.interceptors.response.use(
 		const forbiden = (error.response.status === 403)
 		const unauthorized = (error.response.status === 401)
 		const invalidToken = (error.response.data === 'Token invalido')
-		const validPaths = ['/login', '/', '/cash-check']
+		const validPaths = ['/login', '/']
 		const { url } = error.config
 
 		if (((unauthorized && url !== '/auth/authorize') || (forbiden && invalidToken)) && !validPaths.includes(path)) {

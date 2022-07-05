@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Routes, Route, HashRouter, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 
 import Login from './views/Login/Login';
 import Main from './views/Main/Main';
@@ -7,7 +7,6 @@ import PausedTickets from './views/PausedTickets/PausedTickets';
 import Profile from './views/Profile/Profile';
 import Settings from './views/Settings/Settings';
 import CashCheck from './views/CashCheck/CashCheck';
-import CreditNote from './views/CreditNote/CreditNote';
 import Products from './views/Products/Products';
 import TFA from './views/Login/2FA';
 import ShiftStart from './views/Login/ShiftStart';
@@ -37,8 +36,6 @@ const Router = () => {
 			<Route path="/settings" element={<Settings />} />
 			<Route path="/products" element={<Products />} />
 			<Route path={'/shift-end'} element={<CashCheck />} />
-			<Route path={'/cash-check'} element={<CashCheck />} />
-			<Route path="/credit-note" element={<CreditNote />} />
 			<Route path="/save-ticket" element={<SaveTicket />} />
 		</Routes>
 	);

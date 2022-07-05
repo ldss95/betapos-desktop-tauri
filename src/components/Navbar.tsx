@@ -132,19 +132,6 @@ const Navbar = () => {
 						</li>
 						<li className={(!session.shift) ? 'disabled': ''}>
 							<NavLink
-								to="/cash-check"
-								onClick={event => {
-									if(!session.shift){
-										event.preventDefault();
-									}
-								}}
-							>
-								<DollarOutlined />
-								Arqueo
-							</NavLink>
-						</li>
-						<li className={(!session.shift) ? 'disabled': ''}>
-							<NavLink
 								to="/shift-end"
 								onClick={event => {
 									if(!session.shift){
@@ -194,12 +181,6 @@ const Navbar = () => {
 										<DollarOutlined />
 										Descuento
 									</span>
-								</li>
-								<li>
-									<NavLink to="/credit-note">
-										<FileTextOutlined />
-										Nota de Credito
-									</NavLink>
 								</li>
 								<li className={(session.role === 'ADMIN') ? 'disabled': ''}>
 									<span
