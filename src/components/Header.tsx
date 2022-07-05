@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Layout, Input, Typography, Button, Form, Space, message } from 'antd';
+import { Layout, Input, Typography, Button, Form, Space } from 'antd';
 import { LeftOutlined, SearchOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import axios from 'axios'
 
 import '../styles/Header.scss';
 import http from '../http';
@@ -96,20 +95,18 @@ const CustomHeader = ({ main, title }: CustomHeaderProps) => {
 	};
 
 	const addToCart = async (product: any, barcode = '') => {
-		const priceless = !product.price
+		if (!product.price && barcode != '999') {
+			return Swal.fire(
+				'Oops!',
+				'Este producto no puede ser facturado porque no tiene precio',
+				'warning'
+			);
+		}
 
-		if (barcode === '999' || barcode.toLowerCase() === 'r' || priceless) {
-			let title;
-			if (priceless)
-				title = `Precio para: ${product.name}`
-			else if (barcode === '999')
-				title = 'Precio Producto Generico'
-			else if (barcode.toLowerCase() === 'r')
-				title = 'Monto Recarga'
-					
+		if (barcode === '999') {
 			do {
 				const { value, isDismissed } = await Swal.fire({
-					title,
+					title: 'Precio Producto Generico',
 					input: 'number',
 					showCancelButton: true,
 					cancelButtonText: 'Cancelar',
@@ -123,15 +120,6 @@ const CustomHeader = ({ main, title }: CustomHeaderProps) => {
 
 				product.price = Number(value)
 			} while (!product.price)
-					
-			if (priceless && barcode !== '999' && barcode.toLocaleLowerCase() !== 'r') {
-				const { price, id, name } = product
-				axios.put(API_URL + '/prices-and-stock', { productId: id, price, name })
-					.catch(error => {
-						message.error('Error actualizando precios')
-						console.error(error)
-					})
-			}
 		}
 
 		dispatch(addProductToCart(product));
