@@ -1,4 +1,4 @@
-import { useState, useEffect,  } from 'react';
+import { useState, useEffect } from 'react';
 import {
 	Layout,
 	Row,
@@ -9,7 +9,7 @@ import {
 	Space
 } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 import './CashCheck.scss';
@@ -17,12 +17,12 @@ import { format } from '../../helper';
 import http from '../../http';
 import { logOut } from '../../redux/actions/session';
 import { Header, ModalSummary } from '../../components';
+import { toggleMenu } from '../../redux/actions/navbar';
 
 const { Content } = Layout;
 const { Text, Title } = Typography;
 
 const CashingOut = () => {
-	const location = useLocation();
 	const { shift, sellerName, role } = useSelector((state: any) => ({
 		shift: state.session.shift,
 		role: state.session.role,
@@ -31,7 +31,6 @@ const CashingOut = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
-	const [path, setPath] = useState<string>();
 	const [loading, setLoading] = useState(false);
 	const [summary, setSummary] = useState<any>({ vivisble: false })
 
@@ -50,7 +49,7 @@ const CashingOut = () => {
 	]);
 
 	useEffect(() => {
-		setPath(location.pathname);
+		dispatch(toggleMenu());
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
@@ -98,9 +97,7 @@ const CashingOut = () => {
 
 	return (
 		<Layout>
-			<Header
-				title={path === '/shift-end' ? 'Cierre de Caja' : 'Arqueo'}
-			/>
+			<Header title='Cierre de Caja' />
 
 			<Content className="main">
 				<Row gutter={120}>

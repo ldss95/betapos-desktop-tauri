@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Layout, Row, Form, Input, DatePicker, Button, Avatar } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { useSelector, useDispatch } from 'react-redux';
@@ -6,6 +7,7 @@ import moment from 'moment';
 
 import http from '../../http';
 import { setSession } from '../../redux/actions/session';
+import { toggleMenu } from '../../redux/actions/navbar';
 import { Header } from '../../components';
 
 const { Content } = Layout;
@@ -13,6 +15,10 @@ const { Content } = Layout;
 const Profile = () => {
 	const dispatch = useDispatch();
 	const session = useSelector((state: any) => state.session);
+
+	useEffect(() => {
+		dispatch(toggleMenu());
+	}, [])
 
 	const handleSubmit = (form: any) => {
 		http.put('/users', form)

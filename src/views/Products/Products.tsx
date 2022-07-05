@@ -11,22 +11,26 @@ import {
 	Input
 } from 'antd'
 import Swal from 'sweetalert2'
+import { useDispatch } from 'react-redux';
 
 import { Header } from '../../components'
+import { toggleMenu } from '../../redux/actions/navbar';
 import http from '../../http'
 import { format } from '../../helper'
 
 const { Content } = Layout
 
 const Products = () => {
+	const dispatch = useDispatch();
+
 	const [products, setProducts] = useState([])
 	const [loading, setLoading] = useState(true)
 	const [barcodes, setBarcodes] = useState([])
 	const [searchPhrase, setSearchPhrase] = useState('')
-	const [changePrice, setChangePrice] = useState<any>({})
 
 	useEffect(() => {
-		fetchProducts()
+		fetchProducts();
+		dispatch(toggleMenu());
 	}, [])
 
 	const fetchProducts = () => {
