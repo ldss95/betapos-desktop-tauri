@@ -10,10 +10,11 @@ const { Title, Text } = Typography;
 interface ModalSummaryProps {
 	visible: boolean;
 	id: string;
+	type: 'SHIFT' | 'TICKET';
 	close: () => void;
 	items: any[];
 }
-const ModalSummary = ({ visible, close, items, id }: ModalSummaryProps) => {
+const ModalSummary = ({ visible, close, items, id, type }: ModalSummaryProps) => {
 	const printBtnRef = useRef<any>(null);
 
 	useEffect(() => {
@@ -24,7 +25,13 @@ const ModalSummary = ({ visible, close, items, id }: ModalSummaryProps) => {
 	}, [visible, printBtnRef]);
 
 	function print() {
-		http.post(`/tickets/print/${id}`)
+		if (type == 'SHIFT') {
+			http.post(`/shifts/print/${id}`)
+		}
+
+		if (type == 'TICKET') {
+			http.post(`/tickets/print/${id}`)
+		}
 	}
 
 	return (

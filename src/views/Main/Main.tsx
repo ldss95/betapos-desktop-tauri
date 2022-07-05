@@ -109,6 +109,7 @@ const Main = () => {
 					visible={cart.showLastTicketSummary}
 					close={() => dispatch(hideLastTicketSummary())}
 					id={cart.lastTicketSummary.id}
+					type='TICKET'
 					items={[
 						{
 							title: 'Total',

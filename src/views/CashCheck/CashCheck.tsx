@@ -212,6 +212,8 @@ const CashingOut = () => {
 			</Content>
 		
 			<ModalSummary
+				id={shift.id}
+				type='SHIFT'
 				visible={summary.visible}
 				close={() => {
 					setSummary({ ...summary, visible: false })
