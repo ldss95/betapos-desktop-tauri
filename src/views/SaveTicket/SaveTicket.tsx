@@ -135,7 +135,7 @@ function SaveTicket() {
 				});
 			}
 
-			await http.post('/tickets', {
+			const { data } = await http.post('/tickets', {
 				ticket: {
 					amount: total,
 					status: 'DONE',
@@ -151,6 +151,7 @@ function SaveTicket() {
 			})
 			dispatch(clear());
 			dispatch(setSummary({
+				id: data.id,
 				cashReceived: cash || 0,
 				total,
 				discount,

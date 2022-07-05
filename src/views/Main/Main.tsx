@@ -108,6 +108,7 @@ const Main = () => {
 				<ModalSummary
 					visible={cart.showLastTicketSummary}
 					close={() => dispatch(hideLastTicketSummary())}
+					id={cart.lastTicketSummary.id}
 					items={[
 						{
 							title: 'Total',

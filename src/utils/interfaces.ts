@@ -26,6 +26,7 @@ export interface ClientProps {
 }
 
 export interface TicketSummaryProps {
+	id: string;
 	total: number;
 	discount: number;
 	payments: {
