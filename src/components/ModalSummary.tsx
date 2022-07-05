@@ -15,6 +15,7 @@ const ModalSummary = ({ visible, close, items }: ModalSummaryProps) => {
 		<Modal
 			visible={visible}
 			onCancel={close}
+			maskClosable={false}
 			title="Resumen"
 			width={600}
 			footer={null}

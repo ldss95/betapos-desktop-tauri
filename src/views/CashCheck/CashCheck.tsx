@@ -23,7 +23,7 @@ const { Content } = Layout;
 const { Text, Title } = Typography;
 
 const CashingOut = () => {
-	const { shift, sellerName, role } = useSelector((state: any) => ({
+	const { shift, sellerName } = useSelector((state: any) => ({
 		shift: state.session.shift,
 		role: state.session.role,
 		sellerName: state.session.name
@@ -64,21 +64,20 @@ const CashingOut = () => {
 			.filter(item => item.type === 'bill')
 			.reduce((acumulated, bill) => acumulated + bill.quantity * bill.amount, 0);
 
-	const endShift = () => {
-		setLoading(true);
-		http.put('/shifts', {
-			shift,
-			endAmount: totalBills() + totalCoins(),
-			cashDetail,
-			sellerName
-		})
-			.then(() => {
-				handleLogOut();
+	const endShift = async () => {
+		try {
+			setLoading(true);
+			const { data } = await http.put('/shifts', {
+				shift,
+				endAmount: totalBills() + totalCoins(),
+				cashDetail,
+				sellerName
 			})
-			.catch(() => {
-				setLoading(false);
-				Swal.fire('Error', 'No se ha podido cerrar su turno', 'error');
-			});
+			setSummary({ ...data, visible: true })
+		} catch (error) {
+			setLoading(false);
+			Swal.fire('Error', 'No se ha podido cerrar su turno', 'error');
+		}
 	};
 
 	const handleLogOut = () => {
@@ -172,32 +171,30 @@ const CashingOut = () => {
 				<br />
 				<br />
 
-				{(role === 'ADMIN') &&
-					<Row justify="center">
-						<Space size="large">
-							<div className="cashing-out-total">
-								<Text>Total Monedas</Text>
-								<Title level={2}>
-									{format.cash(totalCoins())}
-								</Title>
-							</div>
-							<div className="cashing-out-total">
-								<Text>Total Billetes</Text>
-								<Title level={2}>
-									{format.cash(totalBills())}
-								</Title>
-							</div>
-							<div className="cashing-out-total">
-								<Text>Total Efectivo</Text>
-								<Title level={2}>
-									{format.cash(
-										totalBills() + totalCoins()
-									)}
-								</Title>
-							</div>
-						</Space>
-					</Row>
-				}
+				<Row justify="center">
+					<Space size="large">
+						<div className="cashing-out-total">
+							<Text>Total Monedas</Text>
+							<Title level={2}>
+								{format.cash(totalCoins())}
+							</Title>
+						</div>
+						<div className="cashing-out-total">
+							<Text>Total Billetes</Text>
+							<Title level={2}>
+								{format.cash(totalBills())}
+							</Title>
+						</div>
+						<div className="cashing-out-total">
+							<Text>Total Efectivo</Text>
+							<Title level={2}>
+								{format.cash(
+									totalBills() + totalCoins()
+								)}
+							</Title>
+						</div>
+					</Space>
+				</Row>
 					
 				<br />
 
@@ -218,7 +215,7 @@ const CashingOut = () => {
 				visible={summary.visible}
 				close={() => {
 					setSummary({ ...summary, visible: false })
-					navigate(-1);
+					handleLogOut();
 				}}
 				items={[
 					{
