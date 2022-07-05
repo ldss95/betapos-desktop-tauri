@@ -5,7 +5,12 @@ import { useNavigate } from 'react-router-dom';
 
 import http from '../../http';
 import { wait } from '../../helper';
-import { increase, decrease, hideLastTicketSummary } from '../../redux/actions/cart'
+import {
+	increase,
+	decrease,
+	hideLastTicketSummary,
+	removeProductFromCart
+} from '../../redux/actions/cart'
 
 import {
 	NavBar,
@@ -37,6 +42,7 @@ const Main = () => {
 
 		document.addEventListener('keydown', (event) => {
 			switch (event.code) {
+				// Guarda Factura
 				case 'F12':
 					event.preventDefault();
 					if (cart.products.length > 0) {
@@ -44,11 +50,21 @@ const Main = () => {
 					}
 
 					break;
+				
+				// Enfoca input de cantidad
 				case 'F10':
 					const input: any = document.querySelector('.quantity-input input')
 					if (input) {
 						input.focus()
 						input.select()
+					}
+					break;
+
+				// Elimina ultimo producto
+				case 'F4':
+					if (cart.products.length > 0) {
+						const index = cart.products.length - 1;
+						dispatch(removeProductFromCart(index))
 					}
 					break;
 				case 'ArrowUp':
