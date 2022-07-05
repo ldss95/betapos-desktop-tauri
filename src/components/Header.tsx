@@ -135,6 +135,8 @@ const CustomHeader = ({ main, title }: CustomHeaderProps) => {
 		}
 
 		dispatch(addProductToCart(product));
+		const barcodeInput: any = document.querySelector('#barcode_input');
+		barcodeInput.focus();
 	}
 
 	const handleToggleMenu = () => {
