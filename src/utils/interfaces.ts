@@ -36,3 +36,34 @@ export interface TicketSummaryProps {
 	change: number;
 	cashReceived: number;
 }
+
+export interface TicketProps {
+	id: string;
+	ticketNumber: string;
+	businessId: string;
+	clientId: string;
+	client: ClientProps;
+	products: TicketProductProps[];
+	sellerId: string;
+	deviceId: string;
+	amount: number;
+	discount: number;
+	shiftId: string;
+	orderType: 'DELIVERY' | 'PICKUP';
+	paymentTypeId: string;
+	paymentType: string;
+	shippingAddress?: string;
+	status: 'DONE' | 'CANCELLED';
+	createdAt: string;
+	updatedAt: string;
+}
+
+export interface TicketProductProps {
+	id: string;
+	ticketId: string;
+	productId: string;
+	product: ProductProps;
+	quantity: number;
+	price: number;
+	cost: number;
+}

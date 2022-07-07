@@ -11,6 +11,9 @@ import {
 	hideLastTicketSummary,
 	removeProductFromCart
 } from '../../redux/actions/cart'
+import {
+	hideCancelTicket
+} from '../../redux/actions/common'
 
 import {
 	NavBar,
@@ -20,13 +23,15 @@ import {
 	ModalSummary,
 	ModalProductQty,
 } from '../../components';
+import ModalCancelTicket from '../../components/ModalCancelTicket';
 
 const { Content } = Layout;
 
 const Main = () => {
 	const navigate = useNavigate();
-	const cart = useSelector((state: any) => state.cart);
+	const { cart, common } = useSelector(({ cart, common }: any) => ({ cart, common }));
 	const dispatch = useDispatch();
+	console.log(common.showCancelTicket)
 
 	useEffect(() => {
 		const barcodeInput: any = document.querySelector('#barcode_input');
@@ -144,6 +149,13 @@ const Main = () => {
 			<ModalProductQty
 				visible={cart?.qtyCalculator?.visible}
 				productId={cart?.qtyCalculator?.productId}
+			/>
+
+			{/* Cancel Ticket */}
+			<ModalCancelTicket
+				visible={common.showCancelTicket}
+				id={common.cancelTicketId}
+				close={() => dispatch(hideCancelTicket())}
 			/>
 		</Layout>
 	);

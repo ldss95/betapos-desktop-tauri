@@ -6,11 +6,11 @@ import {
 	SettingOutlined,
 	ShoppingCartOutlined,
 	DollarOutlined,
-	CloseSquareOutlined,
 	DownloadOutlined,
 	UploadOutlined,
-	FileTextOutlined,
-	DropboxOutlined
+	CalculatorOutlined,
+	DropboxOutlined,
+	FileSearchOutlined
 } from '@ant-design/icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
@@ -20,6 +20,7 @@ import { logOut } from '../redux/actions/session';
 import { toggleMenu } from '../redux/actions/navbar';
 import { ModalDiscount, ModalIO } from '.'
 import http from '../http';
+import ModalTickets from './ModalTickets';
 
 const { Title } = Typography;
 const Navbar = () => {
@@ -33,6 +34,7 @@ const Navbar = () => {
 
 	const [showSubMenu, setShowSubMenu] = useState(false);
 	const [showModalDiscount, setShowModalDiscount] = useState(false);
+	const [showModalTickets, setShowModalTickets] = useState(false);
 	const [modalIO, setModalIO] = useState<any>({ visible: false });
 
 	const handleLogout = () => {
@@ -88,6 +90,11 @@ const Navbar = () => {
 				close={() => setModalIO({ visible: false })}
 			/>
 
+			<ModalTickets
+				visible={showModalTickets}
+				close={() => setShowModalTickets(false)}
+			/>
+
 			<Drawer
 				className='_navbar'
 				placement="left"
@@ -139,7 +146,7 @@ const Navbar = () => {
 									}
 								}}
 							>
-								<CloseSquareOutlined />
+								<CalculatorOutlined />
 								Cierre de Caja
 							</NavLink>
 						</li>
@@ -182,11 +189,11 @@ const Navbar = () => {
 										Descuento
 									</span>
 								</li>
-								<li className={(session.role === 'ADMIN') ? 'disabled': ''}>
+								<li>
 									<span
 										className="btn"
 										onClick={() => {
-											if (session.shift && session.role !== 'ADMIN')
+											if (session.shift)
 												setModalIO({
 													visible: true,
 													type: 'IN'
@@ -197,11 +204,11 @@ const Navbar = () => {
 										Ingreso
 									</span>
 								</li>
-								<li  className={(session.role === 'ADMIN') ? 'disabled': ''}>
+								<li>
 									<span
 										className="btn"
 										onClick={() => {
-											if (session.shift && session.role !== 'ADMIN')
+											if (session.shift)
 												setModalIO({
 													visible: true,
 													type: 'OUT'
@@ -210,6 +217,18 @@ const Navbar = () => {
 									>
 										<UploadOutlined />
 										Egreso
+									</span>
+								</li>
+								<li>
+									<span
+										className="btn"
+										onClick={() => {
+											setShowModalTickets(true);
+											dispatch(toggleMenu());
+										}}
+									>
+										<FileSearchOutlined />
+										Facturas
 									</span>
 								</li>
 							</ul>
