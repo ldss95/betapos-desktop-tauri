@@ -17,15 +17,54 @@ interface ModalCancelTicketProps {
 
 function ModalCancelTicket({ visible, close, id }: ModalCancelTicketProps) {
 	const [ticket, setTicket] = useState<TicketProps>({} as TicketProps);
+	const [loading, setLoading] = useState(false);
+	const [deleting, setDeleting] = useState<string | null>(null);
+	const [canceling, setCancelling] = useState(false);
 
 	useEffect(() => {
-		http.get('/tickets/by-id/' + id)
-			.then(({ data }) => setTicket(data))
-			.catch(() => {
-				close();
-				Swal.fire('Error', 'No se pudo obtener la informacion de la factura', 'error');
-			});
+		fetchData();
 	}, [id])
+
+	async function fetchData() {
+		try {
+			setLoading(true);
+			const { data } = await http.get('/tickets/by-id/' + id);
+			setTicket(data);
+		} catch (error) {
+			close();
+			Swal.fire('Error', 'No se pudo obtener la informacion de la factura', 'error');
+		} finally {
+			setLoading(false);
+		}
+	}
+
+	async function deleteProduct(id: string) {
+		try {
+			setDeleting(id);
+			await http.delete('/tickets/product/' + id)
+			Swal.fire('Listo', 'Producto eliminado', 'success')
+			await fetchData();
+		} catch (error) {
+			Swal.fire('Error', 'No se pudo eliminar el producto', 'error');
+			console.error(error);
+		} finally {
+			setDeleting(null)
+		}
+	}
+
+	async function cancellTicket() {
+		try {
+			setCancelling(true);
+			await http.delete('/tickets/' + id)
+			Swal.fire('Listo', 'Factura cancelada', 'success')
+			await fetchData();
+		} catch (error) {
+			Swal.fire('Error', 'No se pudo cancelar la factura', 'error');
+			console.error(error);
+		} finally {
+			setCancelling(false);
+		}
+	}
 
 	return (
 		<Modal
@@ -37,7 +76,7 @@ function ModalCancelTicket({ visible, close, id }: ModalCancelTicketProps) {
 			bodyStyle={{ background: 'rgba(0, 0, 0, 0.05)' }}
 		>
 
-			{ticket?.products?.map(({ quantity, price, product }) => (
+			{ticket?.products?.map(({ quantity, price, product, id }) => (
 				<div
 					key={product.id}
 					style={{
@@ -58,7 +97,11 @@ function ModalCancelTicket({ visible, close, id }: ModalCancelTicketProps) {
 					</div>
 
 					<div>
-						<Button danger>
+						<Button
+							loading={deleting == id}
+							onClick={() => deleteProduct(id)}
+							danger
+						>
 							<DeleteOutlined style={{ color: '#ff4d4f' }} />
 						</Button>
 					</div>
@@ -67,7 +110,12 @@ function ModalCancelTicket({ visible, close, id }: ModalCancelTicketProps) {
 			<br />
 
 			<Row justify='center'>
-				<Button key="cancel" danger style={{ background: '#ff4d4f', color: '#fff' }}>
+				<Button
+					style={{ background: '#ff4d4f', color: '#fff' }}
+					onClick={cancellTicket}
+					loading={canceling}
+					danger
+				>
 					<Text style={{ color: '#fff' }}>Cancelar Factura</Text>
 				</Button>
 			</Row>
