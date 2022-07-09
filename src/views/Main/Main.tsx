@@ -31,7 +31,6 @@ const Main = () => {
 	const navigate = useNavigate();
 	const { cart, common } = useSelector(({ cart, common }: any) => ({ cart, common }));
 	const dispatch = useDispatch();
-	console.log(common.showCancelTicket)
 
 	useEffect(() => {
 		const barcodeInput: any = document.querySelector('#barcode_input');
@@ -89,6 +88,14 @@ const Main = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
+	const no = (index: number) => {
+		const positions = cart
+			.products
+			.map((_: any, index: number) => index + 1)
+			.reverse();
+		return positions[index]
+	}
+
 	return (
 		<Layout style={{ height: '100vh' }}>
 			{/* Navigation Menu */}
@@ -100,7 +107,7 @@ const Main = () => {
 
 				<Content className="main">
 					{cart.products.map((product: any, index: number) => (
-						<Product key={`${product.id} - ${index}`} {...product} index={index} />
+						<Product key={`${product.id} - ${index}`} {...product} index={index} no={no(index)} />
 					))}
 				</Content>
 			</Layout>

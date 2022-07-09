@@ -30,14 +30,32 @@ interface ProductProps {
 	isFractionable: boolean;
 	quantity: number;
 	index: number;
+	no: number;
 }
-const Product = ({ id, name, barcode, price, imageUrl, quantity, index, isFractionable }: ProductProps) => {
+const Product = ({ id, name, barcode, price, imageUrl, quantity, index, isFractionable, no }: ProductProps) => {
 	const dispatch = useDispatch();
 
 	return (
 		<div className="product">
+			<div
+				style={{
+					height: 30,
+					borderBottomRightRadius: 10,
+					paddingLeft: 5,
+					paddingRight: 5,
+					background: '#cdcdcd',
+					display: 'flex',
+					justifyContent: 'center',
+					alignItems: 'center',
+					position: 'absolute'
+				}}
+			>
+				<span style={{ fontSize: 18 }}>
+					#{no}
+				</span>
+			</div>
 			<div className="content">
-				<Avatar size={100} src={imageUrl} />
+				<Avatar size={60} style={{ marginTop: 10 }} src={imageUrl} />
 
 				<div className="description">
 					<Title>{name.substr(0, 15)}</Title>
