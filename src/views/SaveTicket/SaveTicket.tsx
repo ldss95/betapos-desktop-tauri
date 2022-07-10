@@ -100,7 +100,8 @@ function SaveTicket() {
 			const products = cart.products.map((product: any) => ({
 				productId: product.id,
 				quantity: product.quantity,
-				price: product.price
+				price: product.price,
+				cost: product.cost
 			}));
 
 			const ticketPayments: any[] = [];
