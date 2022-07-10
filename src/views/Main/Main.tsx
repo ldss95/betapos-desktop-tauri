@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { Layout } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -30,6 +30,7 @@ const { Content } = Layout;
 const Main = () => {
 	const navigate = useNavigate();
 	const { cart, common } = useSelector(({ cart, common }: any) => ({ cart, common }));
+	const cartRef = useRef(cart);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -49,7 +50,7 @@ const Main = () => {
 				// Guarda Factura
 				case 'F12':
 					event.preventDefault();
-					if (cart.products.length > 0) {
+					if (cartRef.current.products.length > 0) {
 						navigate('/save-ticket')
 					}
 
@@ -66,9 +67,8 @@ const Main = () => {
 
 				// Elimina ultimo producto
 				case 'F4':
-					if (cart.products.length > 0) {
-						const index = cart.products.length - 1;
-						dispatch(removeProductFromCart(index))
+					if (cartRef.current.products.length > 0) {
+						dispatch(removeProductFromCart(0))
 					}
 					break;
 				case 'ArrowUp':
@@ -87,6 +87,10 @@ const Main = () => {
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
+
+	useEffect(() => {
+		cartRef.current = cart;
+	}, [cart])
 
 	const no = (index: number) => {
 		const positions = cart
