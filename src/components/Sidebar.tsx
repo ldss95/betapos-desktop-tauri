@@ -55,9 +55,9 @@ const Sidebar = () => {
 					<Button
 						type="primary"
 						icon={<PauseCircleOutlined />}
-						onClick={() => {
+						onClick={async () => {
 							if (!cart.products.length) {
-								Swal.fire(
+								await Swal.fire(
 									'Oops!',
 									'No se puede pausar una factura vacia',
 									'warning'

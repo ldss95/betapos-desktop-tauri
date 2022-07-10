@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import http from '../../http';
-import { wait } from '../../helper';
 import {
 	increase,
 	decrease,
@@ -24,6 +23,7 @@ import {
 	ModalProductQty,
 } from '../../components';
 import ModalCancelTicket from '../../components/ModalCancelTicket';
+import { focusBarcodeInput } from '../../helper';
 
 const { Content } = Layout;
 
@@ -34,17 +34,6 @@ const Main = () => {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		const barcodeInput: any = document.querySelector('#barcode_input');
-		
-		barcodeInput?.addEventListener('blur', async () => {
-			await wait(0.01);
-			const focusedElement = document.querySelector(':focus')
-
-			if (!focusedElement) {
-				barcodeInput?.focus()
-			}
-		})
-
 		document.addEventListener('keydown', (event) => {
 			switch (event.code) {
 				// Guarda Factura
@@ -123,7 +112,10 @@ const Main = () => {
 			{cart.lastTicketSummary && (
 				<ModalSummary
 					visible={cart.showLastTicketSummary}
-					close={() => dispatch(hideLastTicketSummary())}
+					close={() => {
+						dispatch(hideLastTicketSummary());
+						focusBarcodeInput();
+					}}
 					id={cart.lastTicketSummary.id}
 					type='TICKET'
 					items={[

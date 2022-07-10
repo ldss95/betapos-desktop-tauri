@@ -11,6 +11,7 @@ import { toggleMenu } from '../redux/actions/navbar';
 import { addProductToCart } from '../redux/actions/cart';
 import ModalSearch from './ModalSearch';
 import ModalSelectProducts from './ModalProductSelector';
+import { focusBarcodeInput, wait } from '../helper';
 
 const { Header } = Layout;
 const { Title } = Typography;
@@ -41,8 +42,7 @@ const CustomHeader = ({ main, title }: CustomHeaderProps) => {
 
 			if (main && event.code === 'F9') {
 				event.preventDefault();
-				const input: any = document.querySelector('#barcode_input');
-				input.focus();
+				focusBarcodeInput();
 			}
 		});
 		
@@ -51,9 +51,7 @@ const CustomHeader = ({ main, title }: CustomHeaderProps) => {
 
 	useEffect(() => {
 		if (!modalSearch.visible) {
-			const input: any = document.querySelector('#barcode_input');
-			if(input)
-				input.focus();
+			focusBarcodeInput();
 		}
 	}, [modalSearch.visible])
 
@@ -122,8 +120,7 @@ const CustomHeader = ({ main, title }: CustomHeaderProps) => {
 		}
 
 		dispatch(addProductToCart(product));
-		const barcodeInput: any = document.querySelector('#barcode_input');
-		barcodeInput.focus();
+		focusBarcodeInput();
 	}
 
 	const handleToggleMenu = () => {
@@ -145,6 +142,14 @@ const CustomHeader = ({ main, title }: CustomHeaderProps) => {
 							<Input
 								placeholder="Código de barras:"
 								id="barcode_input"
+								onBlur={async () => {
+										await wait(0.01);
+										const focusedElement = document.querySelector(':focus')
+
+										if (!focusedElement) {
+											focusBarcodeInput();
+										}
+								}}
 								autoFocus
 							/>
 						</Form.Item>
@@ -172,7 +177,10 @@ const CustomHeader = ({ main, title }: CustomHeaderProps) => {
 
 			<ModalSearch
 				visible={modalSearch.visible}
-				close={() => setModalSearch({ visible: false, input: '' })}
+				close={async () => {
+					setModalSearch({ visible: false, input: '' });
+					focusBarcodeInput();
+				}}
 				input={modalSearch.input}
 			/>
 
@@ -180,7 +188,10 @@ const CustomHeader = ({ main, title }: CustomHeaderProps) => {
 			<ModalSelectProducts
 				products={products}
 				visible={products.length > 0}
-				hide={() => setProducts([])}
+				hide={() => {
+					setProducts([]);
+					focusBarcodeInput();
+				}}
 				addToCart={addToCart}
 			/>
 		</Header>

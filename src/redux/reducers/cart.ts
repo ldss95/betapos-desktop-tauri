@@ -79,7 +79,7 @@ const cart = (state = initialState, action: any) => {
 		case REMOVE_PRODUCT:
 			return {
 				...state,
-				products: state.products.filter((product: any, index: number) => index !== action.payload.index)
+				products: state.products.filter((_, index: number) => index !== action.payload.index)
 			};
 		case INCREASE_QUANTITY: {
 			const product: any = (action.payload.id)

@@ -16,6 +16,7 @@ import Swal from 'sweetalert2'
 import '../styles/ModalDiscount.scss';
 import { setDiscount } from '../redux/actions/cart';
 import http from '../http'
+import { focusBarcodeInput } from '../helper';
 
 const { Text } = Typography;
 
@@ -53,8 +54,7 @@ const ModalDiscount = ({ visible, close }: ModalDiscountProps) => {
 				'No se puede establecer descuento sin productos en la lista.',
 				'warning'
 			).then(() =>  {
-				const barcodeInput: any = document.querySelector('#barcode_input')
-				barcodeInput.focus()
+				focusBarcodeInput();
 			})
 			return close()
 		}
@@ -85,8 +85,7 @@ const ModalDiscount = ({ visible, close }: ModalDiscountProps) => {
 				setError(null)
 				dispatch(setDiscount(discount));
 				close();
-				const barcodeInput: any = document.querySelector('#barcode_input')
-				barcodeInput.focus()
+				focusBarcodeInput();
 			}).catch(error => {
 				setLoading(false)
 
