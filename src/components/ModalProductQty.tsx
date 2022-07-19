@@ -9,13 +9,14 @@ import { avoidNotNumerics } from '../helper';
 interface ModalProductQtyProps {
 	visible: boolean;
 	productId: string;
+	index: number;
 }
-const ModalProductQty = ({ visible, productId }: ModalProductQtyProps) => {
+const ModalProductQty = ({ visible, productId, index }: ModalProductQtyProps) => {
 	const dispatch = useDispatch();
 	const cart = useSelector((state: any) => state.cart);
 
 	function saveQuantity({ price }: any) {
-		const product = cart.products.find((product: any) => product.id === productId);
+		const product = cart.products.find((_: any, internalIndex: number) => internalIndex === index);
 		let quantity = price / product.price;
 
 		// Previene mas 4 decimales
@@ -24,7 +25,7 @@ const ModalProductQty = ({ visible, productId }: ModalProductQtyProps) => {
 			quantity = Math.round(quantity * 10000) / 10000;
 		}
 
-		dispatch(setQuantity(productId, quantity));
+		dispatch(setQuantity(index, quantity));
 		dispatch(hideQtyCalculagor());
 	}
 

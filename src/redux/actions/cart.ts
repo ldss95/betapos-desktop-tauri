@@ -30,24 +30,24 @@ const removeProductFromCart = (index: number) => ({
 	payload: { index }
 });
 
-const increase = (id?: string) => ({
+const increase = (index?: number) => ({
 	type: INCREASE_QUANTITY,
-	payload: { id }
+	payload: { index }
 });
 
-const decrease = (id?: string) => ({
+const decrease = (index?: number) => ({
 	type: DECREASE_QUANTITY,
-	payload: { id }
+	payload: { index }
 });
 
-const setQuantity = (id: string, quantity: number) => ({
+const setQuantity = (index: number, quantity: number) => ({
 	type: SET_QUANTITY,
-	payload: { id, quantity }
+	payload: { index, quantity }
 });
 
-const setPrice = (id: number, price: number) => ({
+const setPrice = (index: number, price: number) => ({
 	type: SET_PRICE,
-	payload: { id, price }
+	payload: { index, price }
 });
 
 const setDiscount = (discount: number) => ({
@@ -72,9 +72,9 @@ const restartTicket = (id: number) => ({
 
 const clear = () => ({ type: CLEAR });
 
-const showQtyCalculator = (productId: string) => ({
+const showQtyCalculator = (productId: string, index: number) => ({
 	type: SHOW_QTY_CALCULATOR,
-	payload: { productId }
+	payload: { productId, index }
 });
 
 const setClient = (client: ClientProps) => ({

@@ -68,22 +68,22 @@ const Product = ({ id, name, barcode, price, imageUrl, quantity, index, isFracti
 						value={quantity}
 						onPressEnter={(event: any) => {
 							let quantity = Number(event.target.value) || 1;
-							dispatch(setQuantity(id, quantity));
+							dispatch(setQuantity(index, quantity));
 						}}
 						onKeyDown={(event) => avoidNotNumerics(event, isFractionable ? 4 : 0)}
 						className="quantity-input"
 					/>
 					<div className="quantity-controls">
-						<div className="btn" onClick={() => dispatch(increase(id))}>
+						<div className="btn" onClick={() => dispatch(increase(index))}>
 							<PlusOutlined style={{ fontSize: 16 }} />
 						</div>
-						<div className="btn"  onClick={() => dispatch(decrease(id))}>
+						<div className="btn"  onClick={() => dispatch(decrease(index))}>
 							<MinusOutlined style={{ fontSize: 16 }} />
 						</div>
 					</div>
 					<RenderIf condition={isFractionable}>
 						<div className="quantity-controls">
-							<div className="btn" onClick={() => dispatch(showQtyCalculator(id))}>
+							<div className="btn" onClick={() => dispatch(showQtyCalculator(id, index))}>
 								<FaBalanceScaleRight style={{ fontSize: 16 }} />
 							</div>
 						</div>
