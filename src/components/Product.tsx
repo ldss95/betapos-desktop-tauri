@@ -16,7 +16,7 @@ import {
 	setQuantity,
 	showQtyCalculator
 } from '../redux/actions/cart';
-import { avoidNotNumerics, focusBarcodeInput, format } from '../helper';
+import { avoidNotNumerics, format } from '../helper';
 import RenderIf from './RenderIf';
 
 const { Title, Text } = Typography;
@@ -70,7 +70,6 @@ const Product = ({ id, name, barcode, price, imageUrl, quantity, index, isFracti
 							let quantity = Number(event.target.value) || 1;
 							dispatch(setQuantity(id, quantity));
 						}}
-						onBlur={() => focusBarcodeInput()}
 						onKeyDown={(event) => avoidNotNumerics(event, isFractionable ? 4 : 0)}
 						className="quantity-input"
 					/>

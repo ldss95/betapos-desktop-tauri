@@ -50,12 +50,4 @@ async function wait(time: number) {
 	return new Promise(resolve => setTimeout(resolve, time * 1000));
 }
 
-async function focusBarcodeInput() {
-	await wait(0.1);
-	const input: any = document.querySelector('#barcode_input');
-	if (input) {
-		input.focus();
-	}
-}
-
-export { format, avoidNotNumerics, wait, focusBarcodeInput };
+export { format, avoidNotNumerics, wait };
