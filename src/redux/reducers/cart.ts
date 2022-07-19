@@ -30,6 +30,7 @@ interface StateProps {
 	qtyCalculator: {
 		productId: string | null;
 		visible: boolean;
+		index: number | null;
 	};
 	client: ClientProps | null;
 	lastTicketSummary: TicketSummaryProps | null,
@@ -41,7 +42,8 @@ const initialState: StateProps = {
 	paused: [],
 	qtyCalculator: {
 		productId: null,
-		visible: false
+		visible: false,
+		index: null
 	},
 	client: null,
 	showLastTicketSummary: false,
@@ -79,11 +81,13 @@ const cart = (state = initialState, action: any) => {
 		case REMOVE_PRODUCT:
 			return {
 				...state,
-				products: state.products.filter((_, index: number) => index !== action.payload.index)
+				products: state.products.filter((_, index) => index !== action.payload.index)
 			};
 		case INCREASE_QUANTITY: {
-			const product: any = (action.payload.id)
-				? state.products.find((product: any) => product.id === action.payload.id)
+			const { index } = action.payload;
+
+			const product: any = (index)
+				? state.products.find((_, internalIndex) => index === internalIndex)
 				: state.products[0]
 			
 			product.quantity++
@@ -98,16 +102,20 @@ const cart = (state = initialState, action: any) => {
 
 			return {
 				...state,
-				products: state.products.map((item: any) =>
-					(item.id === action.payload.id)
-						? product
-						: item
-				)
+				products: state.products.map((item, internalIndex) => {
+					if (internalIndex === index) {
+						return product;
+					}
+
+					return item;
+				})
 			};
 		}
 		case DECREASE_QUANTITY: {
-			const product: any = (action.payload.id)
-				? state.products.find((product: any) => product.id === action.payload.id)
+			const { index } = action.payload;
+
+			const product: any = (index)
+				? state.products.find((_, internalIndex) => index === internalIndex)
 				: state.products[0]
 			
 			if(product.quantity > 1) {
@@ -125,31 +133,41 @@ const cart = (state = initialState, action: any) => {
 
 			return {
 				...state,
-				products: state.products.map((product: any) =>
-					product.id === action.payload.id
-						? product
-						: product
-				)
+				products: state.products.map((item, internalIndex) => {
+					if (internalIndex === index) {
+						return product;
+					}
+
+					return item;
+				})
 			};
 		}
 		case SET_PRICE: {
+			const { index, price } = action.payload;
+
 			return {
 				...state,
-				products: state.products.map((product: any) =>
-					product.id === action.payload.id
-						? { ...product, price: action.payload.price }
-						: product
-				)
+				products: state.products.map((product, internalIndex) => {
+					if (index === internalIndex) {
+						return { ...product, price }
+					}
+
+					return product
+				})
 			};
 		}
 		case SET_QUANTITY:
+			const { quantity, index } = action.payload;
+
 			return {
 				...state,
-				products: state.products.map((product: any) =>
-					product.id === action.payload.id
-						? { ...product, quantity: action.payload.quantity }
-						: product
-				)
+				products: state.products.map((product, internalIndex) => {
+					if (index === internalIndex) {
+						return { ...product, quantity }
+					}
+
+					return product;
+				})
 			};
 		case SET_DISCOUNT:
 			return {
@@ -204,7 +222,8 @@ const cart = (state = initialState, action: any) => {
 				...state,
 				qtyCalculator: {
 					visible: true,
-					productId: action.payload.productId
+					productId: action.payload.productId,
+					index: action.payload.index
 				}
 			}
 		case HIDE_QTY_CALCULATOR:
