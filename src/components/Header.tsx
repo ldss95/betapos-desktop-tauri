@@ -71,7 +71,7 @@ const CustomHeader = ({ main, title }: CustomHeaderProps) => {
 		}
 
 		// Descarga caracteres que no sen A-Z o 0-9
-		if (keyCode !== 13 && keyCode !== 8 && (keyCode < 32 || keyCode > 90)) {
+		if (keyCode !== 13 && keyCode !== 8 && (keyCode < 32 || keyCode > 105)) {
 			return;
 		}
 
