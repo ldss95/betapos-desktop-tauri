@@ -47,14 +47,16 @@
 			display: flex;
 			flex-direction: column;
 			justify-content: center;
+			text-align: center;
+
+			.price-u {
+				font-size: 24px;
+				font-family: SF UI Display Medium;
+			}
+
 			span {
 				display: block;
 				color: $color-dark-grey-1;
-
-				&.price-u {
-					font-size: 24px;
-					font-family: SF UI Display Medium;
-				}
 
 				&.price-t {
 					font-size: 28px;

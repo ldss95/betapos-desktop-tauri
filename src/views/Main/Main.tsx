@@ -8,7 +8,8 @@ import {
 	increase,
 	decrease,
 	hideLastTicketSummary,
-	removeProductFromCart
+	removeProductFromCart,
+	hidePriceChange
 } from '../../redux/actions/cart'
 import {
 	hideCancelTicket
@@ -21,6 +22,7 @@ import {
 	Product,
 	ModalSummary,
 	ModalProductQty,
+	ModalProductPrice
 } from '../../components';
 import ModalCancelTicket from '../../components/ModalCancelTicket';
 
@@ -28,9 +30,10 @@ const { Content } = Layout;
 
 const Main = () => {
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
+	
 	const { cart, common } = useSelector(({ cart, common }: any) => ({ cart, common }));
 	const cartRef = useRef(cart);
-	const dispatch = useDispatch();
 
 	useEffect(() => {
 		document.addEventListener('keydown', (event) => {
@@ -151,6 +154,12 @@ const Main = () => {
 			{/* Quantity adjusments */}
 			<ModalProductQty
 				{...cart.qtyCalculator}
+			/>
+
+			{/* Price adjusments */}
+			<ModalProductPrice
+				{...cart.priceChange}
+				close={() => dispatch(hidePriceChange())}
 			/>
 
 			{/* Cancel Ticket */}

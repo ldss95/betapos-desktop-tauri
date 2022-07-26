@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { Typography, InputNumber, Avatar } from 'antd';
+import { Typography, InputNumber, Avatar, Button } from 'antd';
 import {
 	MinusOutlined,
 	DeleteOutlined,
@@ -14,7 +14,8 @@ import {
 	increase,
 	decrease,
 	setQuantity,
-	showQtyCalculator
+	showQtyCalculator,
+	showPriceChange
 } from '../redux/actions/cart';
 import { avoidNotNumerics, format } from '../helper';
 import RenderIf from './RenderIf';
@@ -98,9 +99,15 @@ const Product = ({ id, name, barcode, price, imageUrl, quantity, index, isFracti
 				</div>
 
 				<div className="price">
-					<Text className="price-u">
+					<Button
+						className="price-u"
+						type="text"
+						onClick={() => {
+							dispatch(showPriceChange(index));
+						}}
+					>
 						$ {format.cash(price)} /U
-					</Text>
+					</Button>
 					<Text className="price-t">
 						$ {format.cash(price * quantity)}
 					</Text>

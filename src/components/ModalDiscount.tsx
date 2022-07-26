@@ -181,21 +181,21 @@ const ModalDiscount = ({ visible, close }: ModalDiscountProps) => {
 					</Form.Item>
 
 					<Form.Item
-						name='token'
-						label='Token'
+						name='password'
+						label='Contraseña'
 						rules={[{ required: true }]}
 						validateStatus={
-							error?.error && error?.error === 'Token'
+							error?.error && error?.error === 'Password'
 								? 'error'
 								: ''
 						}
 						help={
-							error?.error && error?.error === 'Token'
+							error?.error && error?.error === 'Password'
 								? error?.message
 								: null
 						}
 					>
-						<Input type='number' />
+						<Input.Password />
 					</Form.Item>
 
 					<Space>
