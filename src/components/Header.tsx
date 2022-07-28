@@ -52,14 +52,12 @@ const CustomHeader = ({ main, title }: CustomHeaderProps) => {
 
 	useEffect(() => {
 		document.addEventListener('keydown', handleKeyDown);
-		console.log('Adding event listener');
 		return () => {
 			document.removeEventListener('keydown', handleKeyDown)
 		}
 	}, [modalSearch])
 
 	const handleKeyDown = (event: KeyboardEvent) => {
-		const { keyCode } = event;
 		if (modalSearch.visible) {
 			return;
 		}
@@ -69,27 +67,34 @@ const CustomHeader = ({ main, title }: CustomHeaderProps) => {
 		if (focusedElement) {
 			return;
 		}
+		
+		const { key } = event;
+		const allowedChars = [
+			'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'M', 'N', 'Ñ', 'L', 'O', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z',
+			'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'm', 'n', 'ñ', 'l', 'o', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z',
+			'1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
+			'-', '+', '.', ',', '\'', '"', ':', ';', '/', ' ', '`', '!', '@', '#', '$', '%', '^', '&', '(', ')',
+			'Enter', 'Backspace'
+		];
 
-		// Descarga caracteres que no sen A-Z o 0-9
-		if (keyCode !== 13 && keyCode !== 8 && (keyCode < 32 || keyCode > 105)) {
+		// Descarga caracteres no permitidos
+		if (!allowedChars.includes(key)) {
 			return;
 		}
 
 		const barcode = barcodeRef.current;
 
-		if (keyCode === 13) {
+		if (key == 'Enter') {
 			return handleBarcodeInput();
 		}
 
-		if (keyCode === 8) {
+		if (key === 'Backspace') {
 			event.preventDefault();
 			return setBarcode(barcode.substring(0, barcode.length - 1));
 		}
 
-		if (keyCode >= 32 && keyCode <= 126) {
-			event.preventDefault();
-			return setBarcode(`${barcode}${event.key}`);
-		}
+		event.preventDefault();
+		return setBarcode(`${barcode}${event.key}`);
 	}
 
 	const handleBarcodeInput = () => {
