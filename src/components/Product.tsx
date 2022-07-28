@@ -106,10 +106,10 @@ const Product = ({ id, name, barcode, price, imageUrl, quantity, index, isFracti
 							dispatch(showPriceChange(index));
 						}}
 					>
-						$ {format.cash(price)} /U
+						$ {format.cash(price, 2)} /U
 					</Button>
 					<Text className="price-t">
-						$ {format.cash(price * quantity)}
+						$ {format.cash(price * quantity, 2)}
 					</Text>
 				</div>
 			</div>
