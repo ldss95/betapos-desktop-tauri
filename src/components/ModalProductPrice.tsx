@@ -31,7 +31,7 @@ const ModalProductPrice = ({ visible, index, close }: ModalProductPriceProps) =>
 				<Form.Item label='Nuevo Precio' name='price'>
 					<InputNumber
 						min={1}
-						onKeyDown={avoidNotNumerics}
+						onKeyDown={(event) => avoidNotNumerics(event, 2)}
 						autoFocus
 					/>
 				</Form.Item>
