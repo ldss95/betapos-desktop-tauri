@@ -40,22 +40,17 @@ const format = {
 					4
 			  )}`
 			: 'N/A',
-	cash: (amount: number, decimals = 0) =>
-		Intl.NumberFormat('en-IN', { minimumFractionDigits: decimals, maximumFractionDigits: decimals }).format(
-			amount
-		)
+	cash: (amount: number, decimals = 0, decimalsRequired = false) =>
+		Intl.NumberFormat(
+			'en-US', {
+				minimumFractionDigits: (decimalsRequired || amount % 1 != 0 ) ? decimals : 0,
+				maximumFractionDigits: decimals
+			}
+		).format(amount)
 };
 
 async function wait(time: number) {
 	return new Promise(resolve => setTimeout(resolve, time * 1000));
 }
 
-async function focusBarcodeInput() {
-	await wait(0.1);
-	const input: any = document.querySelector('#barcode_input');
-	if (input) {
-		input.focus();
-	}
-}
-
-export { format, avoidNotNumerics, wait, focusBarcodeInput };
+export { format, avoidNotNumerics, wait };

@@ -16,6 +16,8 @@ import {
 	CLEAR,
 	SHOW_QTY_CALCULATOR,
 	HIDE_QTY_CALCULATOR,
+	SHOW_PRICE_CHANGE,
+	HIDE_PRICE_CHANGE,
 	SET_CLIENT,
 	REMOVE_CLIENT,
 	SET_SUMMARY,
@@ -32,6 +34,10 @@ interface StateProps {
 		visible: boolean;
 		index: number | null;
 	};
+	priceChange: {
+		visible: boolean;
+		index: number | null;
+	};
 	client: ClientProps | null;
 	lastTicketSummary: TicketSummaryProps | null,
 	showLastTicketSummary: boolean;
@@ -44,6 +50,10 @@ const initialState: StateProps = {
 		productId: null,
 		visible: false,
 		index: null
+	},
+	priceChange: {
+		index: null,
+		visible: false
 	},
 	client: null,
 	showLastTicketSummary: false,
@@ -232,6 +242,22 @@ const cart = (state = initialState, action: any) => {
 				qtyCalculator: {
 					visible: false,
 					productId: null
+				}
+			}
+		case SHOW_PRICE_CHANGE:
+			return {
+				...state,
+				priceChange: {
+					visible: true,
+					index: action.payload.index
+				}
+			}
+		case HIDE_PRICE_CHANGE:
+			return {
+				...state,
+				priceChange: {
+					visible: false,
+					index: null
 				}
 			}
 		case SET_CLIENT:

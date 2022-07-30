@@ -21,7 +21,6 @@ import { toggleMenu } from '../redux/actions/navbar';
 import { ModalDiscount, ModalIO } from '.'
 import http from '../http';
 import ModalTickets from './ModalTickets';
-import { focusBarcodeInput } from '../helper';
 
 const { Title } = Typography;
 const Navbar = () => {
@@ -49,7 +48,6 @@ const Navbar = () => {
 	};
 
 	const handleClose = () => {
-		focusBarcodeInput();
 		dispatch(toggleMenu());
 	};
 

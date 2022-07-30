@@ -13,6 +13,7 @@ import Product from './Product';
 import RenderIf from './RenderIf';
 import Sidebar from './Sidebar';
 import Tile from './Tile';
+import ModalProductPrice from './ModalProductPrice'
 
 export {
     UnexpectedError,
@@ -20,6 +21,7 @@ export {
     ModalDiscount,
     ModalIO,
     ModalProductQty,
+    ModalProductPrice,
     ModalProductSelector,
     ModalSearch,
     ModalSearchClient,

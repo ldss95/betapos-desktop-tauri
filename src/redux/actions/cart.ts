@@ -14,6 +14,8 @@ const FINISH_TICKET = 'FINISH_TICKET';
 const CLEAR = 'CLEAR';
 const SHOW_QTY_CALCULATOR = 'SHOW_QTY_CALCULATOR';
 const HIDE_QTY_CALCULATOR = 'HIDE_QTY_CALCULATOR';
+const SHOW_PRICE_CHANGE = 'SHOW_PRICE_CHANGE';
+const HIDE_PRICE_CHANGE = 'HIDE_PRICE_CHANGE';
 const SET_CLIENT = 'SET_CLIENT';
 const REMOVE_CLIENT = 'REMOVE_CLIENT';
 const SET_SUMMARY = 'SET_SUMMARY';
@@ -77,6 +79,11 @@ const showQtyCalculator = (productId: string, index: number) => ({
 	payload: { productId, index }
 });
 
+const showPriceChange = (index: number) => ({
+	type: SHOW_PRICE_CHANGE,
+	payload: { index }
+});
+
 const setClient = (client: ClientProps) => ({
 	type: SET_CLIENT,
 	payload: { client }
@@ -84,6 +91,7 @@ const setClient = (client: ClientProps) => ({
 
 const removeClient = () => ({ type: REMOVE_CLIENT });
 const hideQtyCalculagor = () => ({ type: HIDE_QTY_CALCULATOR })
+const hidePriceChange = () => ({ type: HIDE_PRICE_CHANGE })
 const setSummary = (summary: TicketSummaryProps) => ({
 	type: SET_SUMMARY,
 	payload: { summary }
@@ -106,6 +114,8 @@ export {
 	CLEAR,
 	SHOW_QTY_CALCULATOR,
 	HIDE_QTY_CALCULATOR,
+	SHOW_PRICE_CHANGE,
+	HIDE_PRICE_CHANGE,
 	SET_CLIENT,
 	REMOVE_CLIENT,
 	SHOW_LAST_TICKET_SUMMARY,
@@ -125,6 +135,8 @@ export {
 	clear,
 	showQtyCalculator,
 	hideQtyCalculagor,
+	showPriceChange,
+	hidePriceChange,
 	setClient,
 	removeClient,
 	showLastTicketSummary,

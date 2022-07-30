@@ -146,6 +146,7 @@ function SaveTicket() {
 					clientId: cart.client?.id,
 					orderType,
 					paymentTypeId: paymentMethod?.id,
+					cashReceived: cash
 				},
 				products,
 				payments: ticketPayments

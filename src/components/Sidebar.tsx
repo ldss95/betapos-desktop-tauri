@@ -87,14 +87,14 @@ const Sidebar = () => {
 
 					<div className="data">
 						<Title level={4}>Descuento</Title>
-						<Title level={3}>$ {format.cash(cart.discount)}</Title>
+						<Title level={3}>$ {format.cash(cart.discount, 2)}</Title>
 					</div>
 
 					<div className="data">
 						<Title level={4}>Total</Title>
 
-						<Title level={3}>
-							$ {format.cash(amount() - cart.discount)}
+						<Title level={3} style={{ width: '100%' }}>
+							$ {format.cash(amount() - cart.discount, 2)}
 						</Title>
 					</div>
 

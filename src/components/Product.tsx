@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { Typography, InputNumber, Avatar } from 'antd';
+import { Typography, InputNumber, Avatar, Button } from 'antd';
 import {
 	MinusOutlined,
 	DeleteOutlined,
@@ -14,9 +14,10 @@ import {
 	increase,
 	decrease,
 	setQuantity,
-	showQtyCalculator
+	showQtyCalculator,
+	showPriceChange
 } from '../redux/actions/cart';
-import { avoidNotNumerics, focusBarcodeInput, format } from '../helper';
+import { avoidNotNumerics, format } from '../helper';
 import RenderIf from './RenderIf';
 
 const { Title, Text } = Typography;
@@ -70,7 +71,6 @@ const Product = ({ id, name, barcode, price, imageUrl, quantity, index, isFracti
 							let quantity = Number(event.target.value) || 1;
 							dispatch(setQuantity(index, quantity));
 						}}
-						onBlur={() => focusBarcodeInput()}
 						onKeyDown={(event) => avoidNotNumerics(event, isFractionable ? 4 : 0)}
 						className="quantity-input"
 					/>
@@ -99,11 +99,17 @@ const Product = ({ id, name, barcode, price, imageUrl, quantity, index, isFracti
 				</div>
 
 				<div className="price">
-					<Text className="price-u">
-						$ {format.cash(price)} /U
-					</Text>
+					<Button
+						className="price-u"
+						type="text"
+						onClick={() => {
+							dispatch(showPriceChange(index));
+						}}
+					>
+						$ {format.cash(price, 2)} /U
+					</Button>
 					<Text className="price-t">
-						$ {format.cash(price * quantity)}
+						$ {format.cash(price * quantity, 2)}
 					</Text>
 				</div>
 			</div>

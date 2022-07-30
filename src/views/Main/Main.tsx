@@ -8,7 +8,8 @@ import {
 	increase,
 	decrease,
 	hideLastTicketSummary,
-	removeProductFromCart
+	removeProductFromCart,
+	hidePriceChange
 } from '../../redux/actions/cart'
 import {
 	hideCancelTicket
@@ -21,17 +22,18 @@ import {
 	Product,
 	ModalSummary,
 	ModalProductQty,
+	ModalProductPrice
 } from '../../components';
 import ModalCancelTicket from '../../components/ModalCancelTicket';
-import { focusBarcodeInput } from '../../helper';
 
 const { Content } = Layout;
 
 const Main = () => {
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
+	
 	const { cart, common } = useSelector(({ cart, common }: any) => ({ cart, common }));
 	const cartRef = useRef(cart);
-	const dispatch = useDispatch();
 
 	useEffect(() => {
 		document.addEventListener('keydown', (event) => {
@@ -60,10 +62,14 @@ const Main = () => {
 						dispatch(removeProductFromCart(0))
 					}
 					break;
+
+				// Aumenta cantidad del ultimo producto
 				case 'ArrowUp':
 					event.preventDefault();
 					dispatch(increase())
 					break;
+
+				// Disminuye cantidad del ultimo producto
 				case 'ArrowDown':
 					event.preventDefault();
 					dispatch(decrease())
@@ -112,10 +118,7 @@ const Main = () => {
 			{cart.lastTicketSummary && (
 				<ModalSummary
 					visible={cart.showLastTicketSummary}
-					close={() => {
-						dispatch(hideLastTicketSummary());
-						focusBarcodeInput();
-					}}
+					close={() => dispatch(hideLastTicketSummary())}
 					id={cart.lastTicketSummary.id}
 					type='TICKET'
 					items={[
@@ -151,6 +154,12 @@ const Main = () => {
 			{/* Quantity adjusments */}
 			<ModalProductQty
 				{...cart.qtyCalculator}
+			/>
+
+			{/* Price adjusments */}
+			<ModalProductPrice
+				{...cart.priceChange}
+				close={() => dispatch(hidePriceChange())}
 			/>
 
 			{/* Cancel Ticket */}

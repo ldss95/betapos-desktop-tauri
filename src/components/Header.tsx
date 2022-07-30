@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Layout, Input, Typography, Button, Form, Space } from 'antd';
-import { LeftOutlined, SearchOutlined } from '@ant-design/icons';
+import { LeftOutlined, SearchOutlined, BarcodeOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
@@ -11,10 +11,9 @@ import { toggleMenu } from '../redux/actions/navbar';
 import { addProductToCart } from '../redux/actions/cart';
 import ModalSearch from './ModalSearch';
 import ModalSelectProducts from './ModalProductSelector';
-import { focusBarcodeInput, wait } from '../helper';
 
 const { Header } = Layout;
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 interface CustomHeaderProps {
 	main?: boolean;
@@ -31,7 +30,10 @@ const CustomHeader = ({ main, title }: CustomHeaderProps) => {
 	const [form] = Form.useForm();
 
 	const [modalSearch, setModalSearch] = useState({ visible: false, input: '' });
-	const [products, setProducts] = useState([])
+	const [products, setProducts] = useState([]);
+	const [barcode, setBarcode] = useState('');
+
+	const barcodeRef = useRef(barcode);
 
 	useEffect(() => {
 		document.addEventListener('keydown', (event) => {
@@ -39,23 +41,65 @@ const CustomHeader = ({ main, title }: CustomHeaderProps) => {
 				event.preventDefault();
 				setModalSearch({ visible: true, input: '' });
 			}
-
-			if (main && event.code === 'F9') {
-				event.preventDefault();
-				focusBarcodeInput();
-			}
 		});
 		
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	useEffect(() => {
-		if (!modalSearch.visible) {
-			focusBarcodeInput();
-		}
-	}, [modalSearch.visible])
+		barcodeRef.current = barcode;
+	}, [barcode]);
 
-	const handleBarcodeInput = ({ barcode }: any) => {
+	useEffect(() => {
+		document.addEventListener('keydown', handleKeyDown);
+		return () => {
+			document.removeEventListener('keydown', handleKeyDown)
+		}
+	}, [modalSearch])
+
+	const handleKeyDown = (event: KeyboardEvent) => {
+		if (modalSearch.visible) {
+			return;
+		}
+
+		// Si hay algun elemento enfocado no tomar entrada como barcode
+		const focusedElement = document.querySelector(':focus');
+		if (focusedElement) {
+			return;
+		}
+		
+		const { key } = event;
+		const allowedChars = [
+			'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'M', 'N', 'Ñ', 'L', 'O', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z',
+			'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'm', 'n', 'ñ', 'l', 'o', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z',
+			'1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
+			'-', '+', '.', ',', '\'', '"', ':', ';', '/', ' ', '`', '!', '@', '#', '$', '%', '^', '&', '(', ')',
+			'Enter', 'Backspace'
+		];
+
+		// Descarga caracteres no permitidos
+		if (!allowedChars.includes(key)) {
+			return;
+		}
+
+		const barcode = barcodeRef.current;
+
+		if (key == 'Enter') {
+			return handleBarcodeInput();
+		}
+
+		if (key === 'Backspace') {
+			event.preventDefault();
+			return setBarcode(barcode.substring(0, barcode.length - 1));
+		}
+
+		event.preventDefault();
+		return setBarcode(`${barcode}${event.key}`);
+	}
+
+	const handleBarcodeInput = () => {
+		const barcode = barcodeRef.current;
+		setBarcode('');
 		if (!barcode) {
 			return;
 		}
@@ -120,7 +164,6 @@ const CustomHeader = ({ main, title }: CustomHeaderProps) => {
 		}
 
 		dispatch(addProductToCart(product));
-		focusBarcodeInput();
 	}
 
 	const handleToggleMenu = () => {
@@ -137,23 +180,22 @@ const CustomHeader = ({ main, title }: CustomHeaderProps) => {
 						<span></span>
 					</div>
 
-					<Form onFinish={handleBarcodeInput} form={form}>
-						<Form.Item name="barcode" style={{ marginBottom: 0 }}>
-							<Input
-								placeholder="Código de barras:"
-								id="barcode_input"
-								onBlur={async () => {
-										await wait(0.01);
-										const focusedElement = document.querySelector(':focus')
-
-										if (!focusedElement) {
-											focusBarcodeInput();
-										}
-								}}
-								autoFocus
-							/>
-						</Form.Item>
-					</Form>
+					<div
+						style={{
+							height: 40,
+							minWidth: 200,
+							border: 'solid 1px #ccc',
+							borderRadius: 5,
+							display: 'flex',
+							alignItems: 'center',
+							paddingLeft: 5,
+							paddingRight: 5,
+							overflow: 'hidden'
+						}}
+					>
+						<BarcodeOutlined style={{ marginRight: 10, fontSize: 24 }} />
+						<Text style={{ margin: 0 }}>{barcode}</Text>
+					</div>
 
 					<Button
 						icon={<SearchOutlined />}
@@ -177,10 +219,7 @@ const CustomHeader = ({ main, title }: CustomHeaderProps) => {
 
 			<ModalSearch
 				visible={modalSearch.visible}
-				close={async () => {
-					setModalSearch({ visible: false, input: '' });
-					focusBarcodeInput();
-				}}
+				close={async () => setModalSearch({ visible: false, input: '' })}
 				input={modalSearch.input}
 			/>
 
@@ -188,10 +227,7 @@ const CustomHeader = ({ main, title }: CustomHeaderProps) => {
 			<ModalSelectProducts
 				products={products}
 				visible={products.length > 0}
-				hide={() => {
-					setProducts([]);
-					focusBarcodeInput();
-				}}
+				hide={() => setProducts([])}
 				addToCart={addToCart}
 			/>
 		</Header>
